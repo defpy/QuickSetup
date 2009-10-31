@@ -1,0 +1,10 @@
+# QuickSetup MAakefile
+
+CC       = gcc 
+LIBS     = `pkg-config --cflags --libs gtk+-2.0 gmodule-export-2.0` 
+INCLUDES = ./GUI/Include/QuickSetup.h ./GUI/Include/Callbacks.h
+SOURCES  = ./GUI/Source/QuickSetup.c ./GUI/Source/Callbacks.c
+
+QuickSetup : $(SOURCES) $(INCLUDES)
+	$(CC) $(LIBS) -o QuickSetup $(SOURCES)
+

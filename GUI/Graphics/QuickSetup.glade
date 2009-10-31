@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<interface>
+  <requires lib="gtk+" version="2.16"/>
+  <!-- interface-naming-policy project-wide -->
+  <object class="GtkWindow" id="QuickSetup">
+    <property name="resizable">False</property>
+    <property name="window_position">center</property>
+    <property name="icon">PSUIcon.png</property>
+    <property name="decorated">False</property>
+    <property name="deletable">False</property>
+    <property name="gravity">south-west</property>
+    <signal name="destroy" handler="gtk_main_quit"/>
+    <child>
+      <object class="GtkHBox" id="HorizontalBox">
+        <property name="visible">True</property>
+        <property name="homogeneous">True</property>
+        <child>
+          <object class="GtkButton" id="Button_1">
+            <property name="label" translatable="yes">Screen</property>
+            <property name="width_request">80</property>
+            <property name="height_request">80</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="pressed" handler="on_Button_1_pressed"/>
+          </object>
+          <packing>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="Button_2">
+            <property name="label" translatable="yes">Video</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="pressed" handler="on_Button_2_pressed"/>
+          </object>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="Button_3">
+            <property name="label" translatable="yes">Gaming</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="pressed" handler="on_Button_3_pressed"/>
+          </object>
+          <packing>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="Button_4">
+            <property name="label" translatable="yes">Speed-up</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="pressed" handler="on_Button_4_pressed"/>
+          </object>
+          <packing>
+            <property name="position">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="Button_5">
+            <property name="label" translatable="yes">Settings</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="pressed" handler="on_Button_5_pressed"/>
+          </object>
+          <packing>
+            <property name="position">4</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="Button_6">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="pressed" handler="on_Button_6_pressed"/>
+            <child>
+              <object class="GtkImage" id="Image_6">
+                <property name="visible">True</property>
+                <property name="tooltip_text" translatable="yes">Exit QuickSetup</property>
+                <property name="pixel_size">45</property>
+                <property name="icon_name">window-close</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="position">5</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow" id="Progress">
+    <property name="destroy_with_parent">True</property>
+    <property name="skip_taskbar_hint">True</property>
+    <property name="decorated">False</property>
+    <property name="deletable">False</property>
+    <property name="opacity">0</property>
+    <child>
+      <object class="GtkProgressBar" id="ProgressBar">
+        <property name="width_request">480</property>
+        <property name="visible">True</property>
+        <property name="text" translatable="yes">QuickSetup</property>
+      </object>
+    </child>
+  </object>
+</interface>

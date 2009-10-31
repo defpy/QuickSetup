@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<gconf>
+        <entry name="font" mtime="1255741170" type="string">
+                <stringvalue>monospace 12</stringvalue>
+        </entry>
+        <entry name="no_aa_without_render" mtime="1255741170" type="bool" value="true">
+        </entry>
+        <entry name="use_system_font" mtime="1255741170" type="bool" value="true">
+        </entry>
+        <entry name="use_theme_colors" mtime="1255741197" type="bool" value="false">
+        </entry>
+        <entry name="delete_binding" mtime="1255741170" type="string">
+                <stringvalue>escape-sequence</stringvalue>
+        </entry>
+        <entry name="backspace_binding" mtime="1255741170" type="string">
+                <stringvalue>ascii-del</stringvalue>
+        </entry>
+        <entry name="background_darkness" mtime="1255741170" type="float" value="0.5">
+        </entry>
+        <entry name="scroll_background" mtime="1255741170" type="bool" value="true">
+        </entry>
+        <entry name="background_image" mtime="1255741170" type="string">
+                <stringvalue></stringvalue>
+        </entry>
+        <entry name="background_type" mtime="1255741170" type="string">
+                <stringvalue>solid</stringvalue>
+        </entry>
+        <entry name="x_font" mtime="1255741170" type="string">
+                <stringvalue>-misc-fixed-medium-r-semicondensed--*-120-*-*-c-*-*-*</stringvalue>
+        </entry>
+        <entry name="palette" mtime="1255741171" type="string">
+                <stringvalue>#000000000000:#AAAA00000000:#0000AAAA0000:#AAAA55550000:#00000000AAAA:#AAAA0000AAAA:#0000AAAAAAAA:#AAAAAAAAAAAA:#555555555555:#FFFF55555555:#5555FFFF5555:#FFFFFFFF5555:#55555555FFFF:#FFFF5555FFFF:#5555FFFFFFFF:#FFFFFFFFFFFF</stringvalue>
+        </entry>
+        <entry name="icon" mtime="1255741170" type="string">
+                <stringvalue>gnome-terminal.png</stringvalue>
+        </entry>
+        <entry name="custom_command" mtime="1255741170" type="string">
+                <stringvalue></stringvalue>
+        </entry>
+        <entry name="use_custom_command" mtime="1255741170" type="bool" value="false">
+        </entry>
+        <entry name="update_records" mtime="1255741170" type="bool" value="true">
+        </entry>
+        <entry name="login_shell" mtime="1255741170" type="bool" value="false">
+        </entry>
+        <entry name="exit_action" mtime="1255741170" type="string">
+                <stringvalue>left</stringvalue>
+        </entry>
+        <entry name="scroll_on_output" mtime="1255741170" type="bool" value="false">
+        </entry>
+        <entry name="scroll_on_keystroke" mtime="1255741170" type="bool" value="true">
+        </entry>
+        <entry name="scrollback_lines" mtime="1255741170" type="int" value="500">
+        </entry>
+        <entry name="scrollbar_position" mtime="1255741232" type="string">
+                <stringvalue>hidden</stringvalue>
+        </entry>
+        <entry name="word_chars" mtime="1255741170" type="string">
+                <stringvalue>-A-Za-z0-9,./?%&amp;#:_</stringvalue>
+        </entry>
+        <entry name="silent_bell" mtime="1255741170" type="bool" value="false">
+        </entry>
+        <entry name="allow_bold" mtime="1255741170" type="bool" value="true">
+        </entry>
+        <entry name="title_mode" mtime="1255741170" type="string">
+                <stringvalue>replace</stringvalue>
+        </entry>
+        <entry name="title" mtime="1255741170" type="string">
+                <stringvalue>mplayer</stringvalue>
+        </entry>
+        <entry name="background_color" mtime="1255741226" type="string">
+                <stringvalue>#000000</stringvalue>
+        </entry>
+        <entry name="foreground_color" mtime="1255741226" type="string">
+                <stringvalue>#000000</stringvalue>
+        </entry>
+        <entry name="default_show_menubar" mtime="1255741190" type="bool" value="false">
+        </entry>
+        <entry name="cursor_blink" mtime="1255741170" type="bool" value="true">
+        </entry>
+        <entry name="visible_name" mtime="1255741170" type="string">
+                <stringvalue>mplayer</stringvalue>
+        </entry>
+</gconf>

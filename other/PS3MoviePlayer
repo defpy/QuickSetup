@@ -1,0 +1,12 @@
+#!/bin/bash
+IFS=$'\t\n'
+if [ "$1" == "" ]; then
+FILE=`zenity --file-selection --title "Select a file to play"`
+else
+FILE="$1"
+fi
+case $? in
+0) gnome-terminal --window-with-profile=mplayer --hide-menubar --full-screen --zoom=2.0 --execute /usr/local/bin/mplayer-ps3 -vo ps3 -fs $FILE;;
+1) zenity --warning --text "PS3MoviePlayer\n\nSelection cancelled";;
+-1) zenity --warning --text "PS3MoviePlayer\n\nSelection cancelled";;
+esac
