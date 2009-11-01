@@ -43,6 +43,7 @@ void QS_GamingMenu();
 void QS_SpeedMenu();
 void QS_FixesMenu();
 
-void Fix_Asound();
-
+void OpenStream(char Path[]);
+int  UpdateFromStream();
+void RunScript();
 #endif

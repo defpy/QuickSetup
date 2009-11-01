@@ -42,7 +42,14 @@ if [ "$PWD" == "${HOME}/QuickSetup" ]; then
       cd ..
       gksu ${HOME}/QuickSetup/GUI/QuickSetup
    else
-      exit 1
+	  sudo apt-get install libgtk2.0-dev
+      make
+      if [ $? -eq 0 ] ; then
+         cd ..
+         gksu ${HOME}/QuickSetup/GUI/QuickSetup
+      else
+         exit 1
+	  fi
    fi
 else
    echo "Location: not ok"

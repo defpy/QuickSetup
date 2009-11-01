@@ -73,8 +73,8 @@ void QS_VideoMenu()
 void QS_GamingMenu()
 {
 	STATE = GAMES;
-	gtk_button_set_label(BUTTON_1, "[X] Emus");
-	gtk_button_set_label(BUTTON_2, "[X] scaler");
+	gtk_button_set_label(BUTTON_1, "[ ] Emus");
+	gtk_button_set_label(BUTTON_2, "[ ] scaler");
 	gtk_button_set_label(BUTTON_3, "");
 	gtk_button_set_label(BUTTON_4, "");
 	gtk_button_set_label(BUTTON_5, "");
@@ -101,8 +101,3 @@ void QS_FixesMenu()
 	gtk_image_set_from_icon_name(IMAGE_6, "go-previous", 45); 
 }
 
-void ShowProgress()
-{
-	GtkProgressBar* Progress = GTK_PROGRESS_BAR(gtk_builder_get_object(builder, "ProgressBar"));
-
-}

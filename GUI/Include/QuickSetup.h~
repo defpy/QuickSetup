@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include <gtk/gtk.h>
 #include "Callbacks.h"
 
@@ -41,7 +42,5 @@ void QS_VideoMenu();
 void QS_GamingMenu();
 void QS_SpeedMenu();
 void QS_FixesMenu();
-
-void Fix_Asound();
 
 #endif
