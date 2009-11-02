@@ -2,12 +2,11 @@
 #
 # GoPlayer installer
 
-apt-get install -y ffmpeg mpg321 youtube-dl
+apt-get install -y ffmpeg mpg321 youtube-dl gtkdialog
 cp ./goplayer /usr/local/bin && echo "bin ok"
 cp ./goplay.png /usr/share/icons && echo "image ok"
-echo "" > /usr/share/applications/GoPlayer.desktop && echo "desktop ok"
 
-echo "[Desktop Entry]" >> /usr/share/applications/GoPlayer.desktop
+echo "[Desktop Entry]" > /usr/share/applications/GoPlayer.desktop
 echo "Version=0.3" >> /usr/share/applications/GoPlayer.desktop
 echo "Name=GoPlayer" >> /usr/share/applications/GoPlayer.desktop
 echo "Comment=Simple media player that relies on mpg321 for mp3, ffplay for video files and youtube-dl dor youtube download" >> /usr/share/applications/GoPlayer.desktop
@@ -19,6 +18,6 @@ echo "Categories=AudioVideo;Player;" >> /usr/share/applications/GoPlayer.desktop
 echo "MimeType=video/mpeg;video/x-mpeg;video/x-avi;video/x-ms-asf;video/x-ms-wmv;video/x-msvideo;application/x-matroska;audio/x-mp3;audio/mp4;video/mp4;video/x-flv;" >> /usr/share/applications/GoPlayer.desktop
 
 cp /usr/share/applications/GoPlayer.desktop ${HOME}/Desktop && echo "shortcut ok"
-
+chmod a+w ${HOME}/Desktop/GoPlayer.desktop && echo "chmod ok"
 echo "Finished"
-
+#zenity --info  --title "GoPlayer" --text "GoPlayer install finished"
