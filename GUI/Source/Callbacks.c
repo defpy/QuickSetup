@@ -1,153 +1,114 @@
 #include "../Include/QuickSetup.h"
 
-G_MODULE_EXPORT void on_Button_1_pressed(GtkObject *object, gpointer user_data)
+G_MODULE_EXPORT void Wizard_released()
 {
-	gtk_progress_bar_set_fraction(PROGRESS, 0);
-	gtk_progress_bar_set_text(PROGRESS, "QuickSetup");
-	switch (STATE)
-	{
-		case MAIN: 
-			QS_ScreenMenu();
-			break;
-		case SCREEN:
-			break;
-		case VIDEO:
-			break;
-		case GAMES:
-			break;
-		case SPEED:
-			RunScript("scripts/set-vram", "Successfully enabled vram.", "Failed enabling vram.");
-			break;
-		case FIXES:
-			break;
-		default:
-			printf("ERROR: Unknown application state.\n");
-			gtk_main_quit();
-	}
+	ResetBar();
 }
-G_MODULE_EXPORT void on_Button_2_pressed(GtkObject *object, gpointer user_data)
+
+G_MODULE_EXPORT void Multimedia_released()
 {
-	gtk_progress_bar_set_fraction(PROGRESS, 0);
-	gtk_progress_bar_set_text(PROGRESS, "QuickSetup");
-	switch (STATE)
-	{
-		case MAIN: 
-			QS_VideoMenu();
-			break;
-		case SCREEN:
-			break;
-		case VIDEO:
-			RunScript("scripts/asound", "Successfully set asound.conf.", "Setting asound.conf failed.");
-			break;
-		case GAMES:
-			break;
-		case SPEED:
-			RunScript("scripts/disable-services", "Successfully disabled services.", "Failed disabling services.");
-			break;
-		case FIXES:
-		default:
-			printf("ERROR: Unknown application state.\n");
-			gtk_main_quit();
-	}
+	ResetBar();
+	if(!gtk_widget_get_visible(Window_Multimedia)) gtk_widget_show(Window_Multimedia);
+	else gtk_widget_hide(Window_Multimedia);
+
+	gtk_widget_hide(Window_Installers);
+	gtk_widget_hide(Window_Performance);
+	gtk_widget_hide(Window_Tweaks);
 }
-G_MODULE_EXPORT void on_Button_3_pressed(GtkObject *object, gpointer user_data)
+
+G_MODULE_EXPORT void Installers_released()
 {
-	gtk_progress_bar_set_fraction(PROGRESS, 0);
-	gtk_progress_bar_set_text(PROGRESS, "QuickSetup");
-	switch (STATE)
-	{
-		case MAIN:
-			QS_GamingMenu();
-			break; 
-		case SCREEN:
-			break;
-		case VIDEO:
-			system("sudo scripts/youtube-option");			
-			break;
-		case GAMES:
-			break;
-		case SPEED:
-			RunScript("scripts/xorg-change shadowfb", "Succesfully set ShadowFB to False.", "Disabling ShadowFB failed.");
-			break;
-		case FIXES:
-		default:
-			printf("ERROR: Unknown application state.\n");
-			gtk_main_quit();
-	}
+	ResetBar();
+	if(!gtk_widget_get_visible(Window_Installers)) gtk_widget_show(Window_Installers);
+	else gtk_widget_hide(Window_Installers);
+
+	gtk_widget_hide(Window_Multimedia);
+	gtk_widget_hide(Window_Performance);
+	gtk_widget_hide(Window_Tweaks);
 }
-G_MODULE_EXPORT void on_Button_4_pressed(GtkObject *object, gpointer user_data)
+
+
+G_MODULE_EXPORT void Performance_released()
 {
-	gtk_progress_bar_set_fraction(PROGRESS, 0);
-	gtk_progress_bar_set_text(PROGRESS, "QuickSetup");
-	switch (STATE)
-	{
-		case MAIN:
-			QS_SpeedMenu();
-			break; 
-		case SCREEN:
-			break;
-		case VIDEO:
-			break;
-		case GAMES:
-			break;
-		case SPEED:
-			break;
-		case FIXES:
-			RunScript("scripts/xorg-change wacom", "Successfully enabled the Wacom tablet.", "Failed executing Wacom fix.");
-			break;
-		default:
-			printf("ERROR: Unknown application state.\n");
-			gtk_main_quit();
-	}
+	ResetBar();
+	if(!gtk_widget_get_visible(Window_Performance)) gtk_widget_show(Window_Performance);
+	else gtk_widget_hide(Window_Performance);
+
+	gtk_widget_hide(Window_Multimedia);
+	gtk_widget_hide(Window_Installers);
+	gtk_widget_hide(Window_Tweaks);
 }
-G_MODULE_EXPORT void on_Button_5_pressed(GtkObject *object, gpointer user_data)
+
+
+G_MODULE_EXPORT void Tweaks_released()
 {
-	gtk_progress_bar_set_fraction(PROGRESS, 0);
-	gtk_progress_bar_set_text(PROGRESS, "QuickSetup");
-	switch (STATE)
-	{
-		case MAIN:
-			QS_FixesMenu();
-			break; 
-		case SCREEN:
-			break;
-		case VIDEO:
-			break;
-		case GAMES:
-			break;
-		case FIXES:
-		default:
-			printf("ERROR: Unknown application state.\n");
-			gtk_main_quit();
-	}
+	ResetBar();
+	if(!gtk_widget_get_visible(Window_Tweaks)) gtk_widget_show(Window_Tweaks);
+	else gtk_widget_hide(Window_Tweaks);
+
+	gtk_widget_hide(Window_Multimedia);
+	gtk_widget_hide(Window_Installers);
+	gtk_widget_hide(Window_Performance);
 }
-G_MODULE_EXPORT void on_Button_6_pressed(GtkObject *object, gpointer user_data)
+
+G_MODULE_EXPORT void Mplayer_released()
 {
-	gtk_progress_bar_set_fraction(PROGRESS, 0);
-	gtk_progress_bar_set_text(PROGRESS, "QuickSetup");
-	switch (STATE)
-	{
-		case MAIN:
-			gtk_main_quit();
-			break;
-		case SCREEN:
-			QS_MainMenu();
-			break;
-		case VIDEO:
-			QS_MainMenu();
-			break;
-		case GAMES:
-			QS_MainMenu();
-			break;
-		case SPEED:
-			QS_MainMenu();
-			break;
-		case FIXES:
-			QS_MainMenu();
-			break;
-		default:
-			printf("ERROR: Unknown application state.\n");
-			gtk_main_quit();
-	}
+	ResetBar();
+}
+G_MODULE_EXPORT void Youtube_released()
+{
+	ResetBar();
+	RunScript("scripts/youtube-option");
+}
+G_MODULE_EXPORT void Asound_released()
+{
+	ResetBar();
+	RunScript("scripts/asound");
+}
+
+
+G_MODULE_EXPORT void Applications_released()
+{
+	ResetBar();
+}
+G_MODULE_EXPORT void Tools_released()
+{
+	ResetBar();
+}
+G_MODULE_EXPORT void Games_released()
+{
+	ResetBar();
+}
+
+
+G_MODULE_EXPORT void Vram_released()
+{
+	ResetBar();
+	RunScript("scripts/asound");
+}
+G_MODULE_EXPORT void ShadowFB_released()
+{
+	ResetBar();
+	RunScript("scripts/xorg-change shadowfb");
+}
+G_MODULE_EXPORT void Services_released()
+{
+	ResetBar();
+	RunScript("scripts/disable-services");
+}
+
+
+G_MODULE_EXPORT void Wacom_released()
+{
+	ResetBar();
+	RunScript("scripts/xorg-change wacom");
+}
+G_MODULE_EXPORT void Resolution_released()
+{
+	ResetBar();
+}
+G_MODULE_EXPORT void Borders_released()
+{
+	ResetBar();
 }
 

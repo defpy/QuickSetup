@@ -1,0 +1,143 @@
+#!/bin/bash
+#
+# xorg-change
+# Disable ShadowFB in xorg.conf
+# Add wacom tablet support (needs to be tested)
+# Usage: xorg-change ( full shadowfb wacom )
+# by defpy
+
+
+# Variables, sources and backups
+XORG_LOCAL=scripts/.xorg.conf.local
+XORG_OPT=""
+XORG_WACOM=scripts/.xorg.conf.local_wacom
+XORG_CONF=/etc/X11/xorg.conf
+XORG_CONF_BK=/etc/X11/xorg.conf.bk
+XORG_O=.xorg-o.log
+XORG_OUT=scripts/.xorg-out.log
+WACOM_OUT=scripts/.wacom-out.log
+BLANK=scripts/.blank
+CHANGE=0
+WACOM=0
+OPT="ShadowFB"
+
+#changes xorg.conf "Device" section if it already exists
+change_xorg()
+{
+	mv $XORG_CONF $XORG_CONF_BK
+	echo -e "\n" >> $XORG_CONF_BK
+	echo "-Backup created-"
+	while read LINE
+		do 
+		LINE_L=$(echo "$LINE" | tr A-Z a-z)
+		if [ "$(echo "$LINE_L" | awk '{ print index($0,"shadowfb") }')" != "0" ] && [ "$(echo "$LINE_L" | awk '{ print index($0,"true") }')" != "0" ] ; then
+			LINE=$(echo "$LINE" | sed "s/[tT][rR][uU][eE]/false/g")
+			echo "ShadowFB set to false"
+			CHANGE=1
+		fi
+		echo "$LINE" >> $XORG_CONF 
+	done < $XORG_CONF_BK
+	echo "10"
+	echo "-Modified xorg-"
+}
+
+#searches for traces
+find_pattern()
+{
+	echo "10"
+	echo "-Locating pattern-"
+	grep -i "ShadowFB" $XORG_CONF > $XORG_O
+	grep -i "false" $XORG_O > $XORG_OUT
+	echo "$(stat -c %s $XORG_OUT)"
+	if [ "$(stat -c %s $XORG_OUT)" -lt 1 ]; then
+		CHANGE=4
+		change_xorg
+	else
+		echo "-ShadowFB was already disabled-"
+	fi
+}
+
+#find wacom traces
+find_wacom()
+{
+	echo "10"
+	echo "-Looking for Wacom traces-"
+	grep -i "wacom" $XORG_CONF > $WACOM_OUT
+	echo $(head $WACOM_OUT)
+	if [ "$(stat -c %s $WACOM_OUT)" -gt 1 ]; then
+		echo "-Wacom traces found-"
+		XORG_OPT=""
+	fi
+}
+
+#start 
+start_xchange()
+{
+if [ "$OPT" == "Wacom" ]; then
+	echo "20"
+	echo "-Executing Wacom fix"
+	find_wacom
+	echo "20"
+	mv $XORG_CONF $XORG_CONF_BK
+	cat $XORG_CONF_BK $BLANK $XORG_OPT > $XORG_CONF
+	echo "xorg.conf: $OPT - $CHANGE"
+	echo "20"
+	echo "-Succesfully executed Wacom fix"
+elif [ -e "$XORG_CONF" ] && [ "$(stat -c %s $XORG_CONF)" -lt 10 ]; then
+	echo "Option: clean"
+	find_wacom
+	mv $XORG_CONF $XORG_CONF_BK
+	cat $XORG_LOCAL $BLANK $XORG_OPT > $XORG_CONF
+	echo "xorg.conf: $OPT - $CHANGE"
+elif [ -e "$XORG_CONF" ] && [ "$(stat -c %s $XORG_CONF)" -gt 50 ]; then
+	find_pattern
+	find_wacom
+	echo "3q"
+	if [ "$CHANGE" = "0" ]; then
+		echo "-Modifying existing config-"
+		mv $XORG_CONF $XORG_CONF_BK
+		cat $XORG_CONF_BK $BLANK $XORG_OPT > $XORG_CONF
+		echo "xorg.conf: $OPT - $CHANGE"
+		echo "10"
+		echo "-Done modifying config-"
+	elif [ "$CHANGE" = "1" ]; then
+		echo "-Modifying existing config-"
+		mv $XORG_CONF $XORG_CONF_BK
+		cat $XORG_CONF_BK $BLANK $XORG_OPT > $XORG_CONF
+		echo "xorg.conf: $OPT - $CHANGE"
+		echo "10"
+		echo "-Done modifying config-"
+	elif [ "$CHANGE" = "4" ]; then
+		echo "-Modifying existing config-"
+		mv $XORG_CONF $XORG_CONF_BK
+		cat $XORG_LOCAL $BLANK $XORG_OPT > $XORG_CONF
+		echo "xorg.conf: $OPT - $CHANGE"
+		echo "10"
+		echo "-Done modifying config-"
+	fi
+else
+	echo "-Cleaning existing config-"
+	find_wacom
+	mv $XORG_CONF $XORG_CONF_BK
+	cat $XORG_LOCAL $BLANK $XORG_OPT > $XORG_CONF
+	echo "xorg.conf: $OPT - $CHANGE"
+fi
+echo "100"
+echo "-Done applying changes-"
+echo "Success"
+}
+
+# Filter input - Usage: xorg-change ( full shadowfb wacom )
+if [ "$1" == "full" ]; then
+	XORG_OPT=$XORG_WACOM
+	OPT=$OPT" + wacom support"
+	start_xchange
+elif [ "$1" == "shadowfb" ]; then
+	start_xchange
+elif [ "$1" == "wacom" ]; then
+	OPT="Wacom"
+	XORG_OPT=$XORG_WACOM
+	start_xchange
+else
+	echo "-Invalid option, report to PSUbuntu"
+fi

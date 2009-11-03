@@ -6,7 +6,7 @@
 # by defpy
 
 # QuickSetup Log file
-HOME=$(head .home_path)
+HOME=$(head scripts/.home_path)
 
 XML_HEAD="<UserScriptConfig>"
 STATE=0
@@ -17,6 +17,8 @@ XML_STATE="ok"
 
 get_path()
 {
+	echo "10"
+	echo "-Locating Firefox config path-"
 	F_PATH=$(grep -i "Path" ${HOME}/.mozilla/firefox-3.5/profiles.ini | sed 's/[pP][aA][tT][hH]=//g')
 	LOC=${HOME}/.mozilla/firefox-3.5/
 	if [ "$F_PATH" = "" ]; then
@@ -33,6 +35,8 @@ get_path
 # adds metainfo to greasemonkey config.xml
 include_tags()
 {
+	echo "10"
+	echo "-Tagging Greasemonkey script-"
 	mv $XML_FILE $XML_FILE_BK
 	echo -e "\n" >> $XML_FILE_BK
 	while read LINE; do 
@@ -49,19 +53,23 @@ include_tags()
 		echo '<Include>http://*.youtube.*/watch*</Include>' >> $XML_FILE
 		echo '</Script>' >> $XML_FILE
 		echo '</UserScriptConfig>' >> $XML_FILE
-		echo "Changes made to config.xml"
+		echo "Done modifying config.xml"
+		echo "10"
 		mkdir -p ${GREASE_PATH}/youtube_without_flashx
 		cp -R ${HOME}/QuickSetup/scripts/youtube_without_flashx.user.js ${GREASE_PATH}/youtube_without_flashx
 		chmod a+w -R ${GREASE_PATH}/config.xml
 		chmod a+w -R ${GREASE_PATH}/youtube_without_flashx
 	else
-		echo "No modifications made to config.xml"
+		echo "10"
+		echo "-No changes made to config.xml-"
 	fi
 }
 
 # dirty parsing, should be replaced by a proper xml parser
 process()
 {
+	echo "10"
+	echo "-Parsing XML-"
 TAGS="<UserScriptConfig </UserScriptConfig <Script </Script <Include </Include"
 for i in $TAGS; do
 	if [ $STATE = 0 ]; then 
@@ -82,6 +90,8 @@ for i in $TAGS; do
 		STATE=0
 	fi
 done
+	echo "10"
+	echo "-Done parsing XML-"
 }
 
 # Checks for greasemonkey config traces, if found add youtube-script to existing install. Clean install is done if nothing is found
@@ -89,7 +99,8 @@ start()
 {
 echo $XML_FILE
 if [ -e "$XML_FILE" ]; then
-	echo "config.xml - found"
+	echo "-Config.xml found-"
+	echo "10"
 	process
 	if [ "$XML_STATE" = "ok" ]; then
 		include_tags
@@ -97,25 +108,33 @@ if [ -e "$XML_FILE" ]; then
 		echo "XML not ok"
 	fi
 else
-	echo "config.xml - not found (clean install)"
+	echo "-No previous configuration found-"
 	if [ -e "$GREASE_PATH" ]; then
-		echo "Greasemonkey directory found"
+		echo "-Greasemonkey directory found-"
+		echo "20"
 		cp -R ${HOME}/QuickSetup/scripts/config.xml $GREASE_PATH
 		cp -R ${HOME}/QuickSetup/scripts/youtube_without_flashx.user.js ${GREASE_PATH}/youtube_without_flashx
 		chmod a+w -R ${GREASE_PATH}/config.xml
 		chmod a+w -R ${GREASE_PATH}/youtube_without_flashx
+		echo "-Installing Greasemonkey script-"
+		echo "20"
 	else
-		echo "Greasemonkey directory not found, creating..."
+		echo "-Creating Greasemonkey directory-"
+		echo "20"
 		mkdir -p ${GREASE_PATH}/youtube_without_flashx
 		cp -R ${HOME}/QuickSetup/scripts/config.xml $GREASE_PATH
 		cp -R ${HOME}/QuickSetup/scripts/youtube_without_flashx.user.js ${GREASE_PATH}/youtube_without_flashx
 		chmod a+w -R ${GREASE_PATH}/config.xml
 		chmod a+w -R ${GREASE_PATH}/youtube_without_flashx
+		echo "-Installing Greasemonkey script-"
+		echo "20"
 	fi
 fi
-
+	echo "100"
+	echo "-Finished installing youtube_without_flash-"
+	echo "Success"
 }
 
 # Install firefox-greasemonkey and start config process
-apt-get install -y firefox-greasemonkey && start || echo "Failed to start youtube-option"
+apt-get install -y firefox-greasemonkey && start || echo "Failed"
 

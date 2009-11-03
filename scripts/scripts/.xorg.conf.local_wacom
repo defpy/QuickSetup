@@ -1,0 +1,31 @@
+Section "InputDevice"
+        Driver          "wacom"
+        Identifier      "stylus"
+        Option          "Device"        "/dev/input/wacom"
+        Option          "Type"          "stylus"
+        Option          "ForceDevice"   "ISDV4"         # Tablet PC ONLY
+EndSection
+
+Section "InputDevice"
+        Driver          "wacom"
+        Identifier      "eraser"
+        Option          "Device"        "/dev/input/wacom"
+        Option          "Type"          "eraser"
+        Option          "ForceDevice"   "ISDV4"         # Tablet PC ONLY
+EndSection
+
+Section "InputDevice"
+        Driver          "wacom"
+        Identifier      "cursor"
+        Option          "Device"        "/dev/input/wacom"
+        Option          "Type"          "cursor"
+        Option          "ForceDevice"   "ISDV4"         # Tablet PC ONLY
+EndSection
+
+Section "ServerLayout"
+
+# Uncomment if you have a wacom tablet
+       InputDevice     "stylus"        "SendCoreEvents"
+       InputDevice     "cursor"        "SendCoreEvents"
+       InputDevice     "eraser"        "SendCoreEvents"
+EndSection 

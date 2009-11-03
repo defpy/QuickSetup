@@ -1,0 +1,46 @@
+#!/bin/bash
+#
+# keeps log of the install process
+# by defpy
+
+IFS=@
+# QuickSetup Log file
+HOME=$(head .home_path)
+LOG=${HOME}/QuickSetup/scripts/.install_log
+LOG_BK=${HOME}/QuickSetup/scripts/.install_log_bk
+END_INSTALL=${HOME}/QuickSetup/scripts/.end_install
+LOG_TOTAL=0
+LOG_SET=0
+
+check_log()
+{
+while [ $LOG_TOTAL != 100 ]; do
+	if [ -e $LOG ]; then
+		echo "Log found, checking"
+		mv $LOG $LOG_BK
+		while read ITEM
+			do
+			for i in $ITEM; do
+				if [ $LOG_SET = 0 ]; then
+					echo $i
+					LOG_SET=1
+				else
+					LOG_TOTAL=$(( $LOG_TOTAL + $i ))
+					echo $LOG_TOTAL
+					LOG_SET=0
+				fi
+				echo $LOG_TOTAL >> ${HOME}/QuickSetup/scripts/.ilog
+				echo $i >> ${HOME}/QuickSetup/scripts/.ilog
+				echo "Progress $LOG_TOTAL%"
+				sleep 1
+			done
+		done <$LOG_BK
+	else
+		echo "No log found, waiting"
+		sleep 2
+	fi
+	
+done
+}
+#passing check_log function through a pipe to zenity progress bar
+( check_log ) | zenity --progress --title="Quick Setup" --text="Starting install..." --percentage=0

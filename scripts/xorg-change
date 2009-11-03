@@ -8,15 +8,15 @@
 
 
 # Variables, sources and backups
-XORG_LOCAL=.xorg.conf.local
+XORG_LOCAL=scripts/.xorg.conf.local
 XORG_OPT=""
-XORG_WACOM=.xorg.conf.local_wacom
+XORG_WACOM=scripts/.xorg.conf.local_wacom
 XORG_CONF=/etc/X11/xorg.conf
 XORG_CONF_BK=/etc/X11/xorg.conf.bk
 XORG_O=.xorg-o.log
 XORG_OUT=scripts/.xorg-out.log
 WACOM_OUT=scripts/.wacom-out.log
-BLANK=/home/quint/QuickSetup/scripts/.blank
+BLANK=scripts/.blank
 CHANGE=0
 WACOM=0
 OPT="ShadowFB"

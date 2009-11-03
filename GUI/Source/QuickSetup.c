@@ -1,21 +1,22 @@
 // QuickSetup GTK+ GUI
 // Made by: Quipeace
 // Sole purpose: launching scripts
-// gcc -Wall -g -o ../../QuickSetup QuickSetup.c Callbacks.c `pkg-config --cflags --libs gtk+-2.0 gmodule-export-2.0`
 // run from $HOME/QuickSetup using "start"
 
 #include "../Include/QuickSetup.h"
 
 GtkBuilder* builder;
 GtkWidget*  Window_QuickSetup;
-GtkWidget*  Window_Progress;
-int STATE = MAIN;
-int winX, winY;
+GtkWidget*	Window_Multimedia;
+GtkWidget*	Window_Installers;
+GtkWidget*	Window_Performance;
+GtkWidget*	Window_Tweaks;
+
+gint WinX, WinY;
 
 int main (int argc, char *argv[])
 {
 	system("clear");
-
 	gtk_init (&argc, &argv);
  
 	builder = gtk_builder_new();
@@ -26,78 +27,34 @@ int main (int argc, char *argv[])
 		return 1;
 	}
 
-	gtk_builder_connect_signals(builder, NULL);
+	SetupMenus();
 
-	Window_QuickSetup = GTK_WIDGET(gtk_builder_get_object (builder, "QuickSetup"));
-	Window_Progress = GTK_WIDGET(gtk_builder_get_object (builder, "Progress"));
-
-	gtk_widget_show(Window_QuickSetup);   
-	gtk_widget_show(Window_Progress);
-	gtk_window_get_position(GTK_WINDOW(Window_QuickSetup), &winX, &winY);
-	gtk_window_move(GTK_WINDOW(Window_Progress),winX, (winY+80));
-  
 	gtk_main ();
+
 	return 0;
 }
 
-void QS_MainMenu()
+void SetupMenus()
 {
-	STATE = MAIN;
-	gtk_button_set_label(BUTTON_1, "Screen");
-	gtk_button_set_label(BUTTON_2, "Video");
-	gtk_button_set_label(BUTTON_3, "Games");
-	gtk_button_set_label(BUTTON_4, "Speed-up");
-	gtk_button_set_label(BUTTON_5, "Fixes");
-	gtk_image_set_from_icon_name(IMAGE_6, "window-close", 45); 
-}
-void QS_ScreenMenu()
-{
-	STATE = SCREEN;
-	gtk_button_set_label(BUTTON_1, "[ ] VidMode");
-	gtk_button_set_label(BUTTON_2, "[ ] Borders");
-	gtk_button_set_label(BUTTON_3, "");
-	gtk_button_set_label(BUTTON_4, "");
-	gtk_button_set_label(BUTTON_5, ""); 
-	gtk_image_set_from_icon_name(IMAGE_6, "go-previous", 45); 
-}
-void QS_VideoMenu()
-{
-	STATE = VIDEO;
-	gtk_button_set_label(BUTTON_1, "[ ] mplayer-ps3");
-	gtk_button_set_label(BUTTON_2, "[X] Asound");
-	gtk_button_set_label(BUTTON_3, "[X] Youtube");
-	gtk_button_set_label(BUTTON_4, "");
-	gtk_button_set_label(BUTTON_5, "");
-	gtk_image_set_from_icon_name(IMAGE_6, "go-previous", 45); 
-}
-void QS_GamingMenu()
-{
-	STATE = GAMES;
-	gtk_button_set_label(BUTTON_1, "[ ] Emus");
-	gtk_button_set_label(BUTTON_2, "[ ] scaler");
-	gtk_button_set_label(BUTTON_3, "");
-	gtk_button_set_label(BUTTON_4, "");
-	gtk_button_set_label(BUTTON_5, "");
-	gtk_image_set_from_icon_name(IMAGE_6, "go-previous", 45); 
-}
-void QS_SpeedMenu()
-{
-	STATE = SPEED;
-	gtk_button_set_label(BUTTON_1, "[X] vram");
-	gtk_button_set_label(BUTTON_2, "[X] services");
-	gtk_button_set_label(BUTTON_3, "[X] shadowfb");
-	gtk_button_set_label(BUTTON_4, "");
-	gtk_button_set_label(BUTTON_5, "");
-	gtk_image_set_from_icon_name(IMAGE_6, "go-previous", 45); 
-}
-void QS_FixesMenu()
-{
-	STATE = FIXES;
-	gtk_button_set_label(BUTTON_1, "[ ] Sixaxis");
-	gtk_button_set_label(BUTTON_2, "[ ] MediaB");
-	gtk_button_set_label(BUTTON_3, "[ ] XMBLaunch");
-	gtk_button_set_label(BUTTON_4, "[X] WacomTabl");
-	gtk_button_set_label(BUTTON_5, "");
-	gtk_image_set_from_icon_name(IMAGE_6, "go-previous", 45); 
+	gtk_builder_connect_signals(builder, NULL);
+
+	Window_QuickSetup  = GTK_WIDGET(gtk_builder_get_object (builder, "QuickSetup"));
+	Window_Multimedia  = GTK_WIDGET(gtk_builder_get_object (builder, "Multimedia"));
+	Window_Installers  = GTK_WIDGET(gtk_builder_get_object (builder, "Installers"));
+	Window_Performance = GTK_WIDGET(gtk_builder_get_object (builder, "Performance"));
+	Window_Tweaks      = GTK_WIDGET(gtk_builder_get_object (builder, "Tweaks"));
+
+	gtk_widget_show(Window_QuickSetup);
+	gtk_window_get_position(GTK_WINDOW(Window_QuickSetup), &WinX, &WinY);
+
+	gtk_window_move(GTK_WINDOW(Window_Multimedia) , WinX+80 , WinY-240);
+	gtk_window_move(GTK_WINDOW(Window_Installers) , WinX+160, WinY-240);
+	gtk_window_move(GTK_WINDOW(Window_Performance), WinX+240, WinY-240);
+	gtk_window_move(GTK_WINDOW(Window_Tweaks)     , WinX+320, WinY-240);
 }
 
+void ResetBar()
+{
+	gtk_progress_bar_set_fraction(PROGRESS, 0);
+	gtk_progress_bar_set_text(PROGRESS, "QuickSetup");
+}

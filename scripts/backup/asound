@@ -1,0 +1,55 @@
+#!/bin/bash
+#
+# set asound.conf file
+
+
+CONF_PATH=/etc/asound.conf
+CONF="pcm.!default { \n\
+type plug \n\
+slave.pcm "dmixer" \n\
+} \n\
+ \n\
+pcm.dsp0 { \n\
+type plug \n\
+slave.pcm "dmixer" \n\
+} \n\
+ \n\
+pcm.dmixer { \n\
+type dmix \n\
+ipc_key 1024 \n\
+slave { \n\
+pcm "hw:0,0" \n\
+period_time 0 \n\
+period_size 1024 \n\
+buffer_size 8192 \n\
+rate 44100 \n\
+} \n\
+bindings { \n\
+0 0 \n\
+1 1 \n\
+} \n\
+} \n\
+ \n\
+ctl.mixer0 { \n\
+type hw \n\
+card 0 \n\
+}"
+
+set_asound()
+{
+	echo "-Setting asound.conf-"
+	echo "30"
+	touch $CONF_PATH
+	echo -e $CONF > $CONF_PATH
+	echo "70"
+	echo "-Done configuring Asound-"
+}
+
+if [ -e "$CONF_PATH" ]; then
+	echo "-Creating backup-"
+	mv $CONF_PATH /etc/asound.conf.bk
+fi
+
+set_asound && echo "Success" || echo "Failed"
+
+
