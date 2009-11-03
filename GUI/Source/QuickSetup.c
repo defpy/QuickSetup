@@ -17,12 +17,12 @@ gint WinX, WinY;
 int main (int argc, char *argv[])
 {
 	system("clear");
+
 	gtk_init (&argc, &argv);
- 
+
 	builder = gtk_builder_new();
 	if(gtk_builder_add_from_file(builder, "GUI/Graphics/QuickSetup.glade", NULL) == 0) 
 	{
-		system("clear");	
 		printf("\n\nGUI XML not found!\nDid you run this script from \"/home/YOURNAME/QuickSetup\", using \"start\"?\n\n");
 		return 1;
 	}
@@ -31,6 +31,7 @@ int main (int argc, char *argv[])
 
 	gtk_main ();
 
+	system("rm .internet_check.log");
 	return 0;
 }
 
