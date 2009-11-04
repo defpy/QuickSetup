@@ -51,6 +51,12 @@ G_MODULE_EXPORT void Tweaks_released()
 	gtk_widget_hide(Window_Performance);
 }
 
+
+G_MODULE_EXPORT void Goplayer_released()
+{
+	ResetBar();
+	RunScript("scripts/goplayer/goplayer-install");
+}
 G_MODULE_EXPORT void Mplayer_released()
 {
 	ResetBar();

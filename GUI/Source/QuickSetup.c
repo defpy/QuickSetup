@@ -46,8 +46,10 @@ void SetupMenus()
 
 	gtk_widget_show(Window_QuickSetup);
 	gtk_window_get_position(GTK_WINDOW(Window_QuickSetup), &WinX, &WinY);
+	WinY += 50;
+	gtk_window_move(GTK_WINDOW(Window_QuickSetup) , WinX , WinY);
 
-	gtk_window_move(GTK_WINDOW(Window_Multimedia) , WinX+80 , WinY-240);
+	gtk_window_move(GTK_WINDOW(Window_Multimedia) , WinX+80 , WinY-320);
 	gtk_window_move(GTK_WINDOW(Window_Installers) , WinX+160, WinY-240);
 	gtk_window_move(GTK_WINDOW(Window_Performance), WinX+240, WinY-240);
 	gtk_window_move(GTK_WINDOW(Window_Tweaks)     , WinX+320, WinY-240);
