@@ -17,7 +17,6 @@ gint WinX, WinY;
 int main (int argc, char *argv[])
 {
 	system("clear");
-
 	gtk_init (&argc, &argv);
 
 	builder = gtk_builder_new();
@@ -26,7 +25,7 @@ int main (int argc, char *argv[])
 		printf("\n\nGUI XML not found!\nDid you run this script from \"/home/YOURNAME/QuickSetup\", using \"start\"?\n\n");
 		return 1;
 	}
-
+	
 	SetupMenus();
 
 	gtk_main ();

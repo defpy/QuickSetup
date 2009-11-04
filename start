@@ -3,6 +3,16 @@
 # basic checks to start install
 NEXT=0
 
+if [ "$1" == "--compile" ]; then
+   cd GUI
+   make
+   if [ $? -eq 0 ] ; then
+      cd ..
+   else
+      exit 1
+   fi
+fi
+
 if [ $HOME = "/home/$USER" ]; then
    echo "ok"
    echo $HOME
@@ -36,14 +46,7 @@ echo "Internet: "$(head $INTERNET_CHECK)
 if [ "$PWD" == "${HOME}/QuickSetup" ]; then
    echo "Location: ok"
    ck_internet
-   cd GUI
-   make
-   if [ $? -eq 0 ] ; then
-      cd ..
-      gksu ${HOME}/QuickSetup/GUI/QuickSetup
-   else
-      exit 1
-   fi
+   gksu ${HOME}/QuickSetup/GUI/QuickSetup
 else
    echo "Location: not ok"
    mkdir -p $LOCAL_SETUP
