@@ -27,8 +27,8 @@
                 <child>
                   <object class="GtkImage" id="image1">
                     <property name="visible">True</property>
+                    <property name="pixbuf">Wizard.svg</property>
                     <property name="pixel_size">45</property>
-                    <property name="icon_name">emblem-favorite</property>
                   </object>
                 </child>
               </object>
@@ -48,8 +48,8 @@
                 <child>
                   <object class="GtkImage" id="image2">
                     <property name="visible">True</property>
+                    <property name="pixbuf">Multimedia.svg</property>
                     <property name="pixel_size">45</property>
-                    <property name="icon_name">applications-multimedia</property>
                   </object>
                 </child>
               </object>
@@ -69,8 +69,8 @@
                 <child>
                   <object class="GtkImage" id="image3">
                     <property name="visible">True</property>
+                    <property name="pixbuf">Installers.svg</property>
                     <property name="pixel_size">45</property>
-                    <property name="icon_name">software-update-urgent</property>
                   </object>
                 </child>
               </object>
@@ -90,8 +90,8 @@
                 <child>
                   <object class="GtkImage" id="image4">
                     <property name="visible">True</property>
+                    <property name="pixbuf">Performance.svg</property>
                     <property name="pixel_size">45</property>
-                    <property name="icon_name">media-seek-forward</property>
                   </object>
                 </child>
               </object>
@@ -111,8 +111,8 @@
                 <child>
                   <object class="GtkImage" id="image5">
                     <property name="visible">True</property>
+                    <property name="pixbuf">Tweaks.svg</property>
                     <property name="pixel_size">45</property>
-                    <property name="icon_name">applications-system</property>
                   </object>
                 </child>
               </object>
@@ -130,8 +130,8 @@
                 <child>
                   <object class="GtkImage" id="image6">
                     <property name="visible">True</property>
+                    <property name="pixbuf">Exit.svg</property>
                     <property name="pixel_size">45</property>
-                    <property name="icon_name">window-close</property>
                   </object>
                 </child>
               </object>
@@ -182,8 +182,8 @@
             <child>
               <object class="GtkImage" id="image9">
                 <property name="visible">True</property>
+                <property name="pixbuf">Asound.svg</property>
                 <property name="pixel_size">45</property>
-                <property name="icon_name">audio-volume-high</property>
               </object>
             </child>
           </object>
@@ -278,8 +278,8 @@
             <child>
               <object class="GtkImage" id="image12">
                 <property name="visible">True</property>
+                <property name="pixbuf">Games.svg</property>
                 <property name="pixel_size">45</property>
-                <property name="icon_name">applications-games</property>
               </object>
             </child>
           </object>
@@ -299,8 +299,8 @@
             <child>
               <object class="GtkImage" id="image11">
                 <property name="visible">True</property>
+                <property name="pixbuf">Tools.svg</property>
                 <property name="pixel_size">45</property>
-                <property name="icon_name">applications-utilities</property>
               </object>
             </child>
           </object>
@@ -320,8 +320,8 @@
             <child>
               <object class="GtkImage" id="image10">
                 <property name="visible">True</property>
+                <property name="pixbuf">Applications.svg</property>
                 <property name="pixel_size">45</property>
-                <property name="icon_name">applications-other</property>
               </object>
             </child>
           </object>
@@ -354,8 +354,8 @@
             <child>
               <object class="GtkImage" id="image15">
                 <property name="visible">True</property>
+                <property name="pixbuf">Services.svg</property>
                 <property name="pixel_size">45</property>
-                <property name="icon_name">edit-find-replace</property>
               </object>
             </child>
           </object>
@@ -395,8 +395,8 @@
             <child>
               <object class="GtkImage" id="image13">
                 <property name="visible">True</property>
+                <property name="pixbuf">Vram.svg</property>
                 <property name="pixel_size">45</property>
-                <property name="icon_name">jockey</property>
               </object>
             </child>
           </object>
@@ -429,8 +429,8 @@
             <child>
               <object class="GtkImage" id="image18">
                 <property name="visible">True</property>
+                <property name="pixbuf">Borders.svg</property>
                 <property name="pixel_size">45</property>
-                <property name="icon_name">background</property>
               </object>
             </child>
           </object>
@@ -450,8 +450,8 @@
             <child>
               <object class="GtkImage" id="image17">
                 <property name="visible">True</property>
+                <property name="pixbuf">Resolution.svg</property>
                 <property name="pixel_size">45</property>
-                <property name="icon_name">display-capplet</property>
               </object>
             </child>
           </object>
@@ -470,8 +470,8 @@
             <child>
               <object class="GtkImage" id="image16">
                 <property name="visible">True</property>
+                <property name="pixbuf">Tablet.svg</property>
                 <property name="pixel_size">45</property>
-                <property name="icon_name">input-tablet</property>
               </object>
             </child>
           </object>
@@ -481,5 +481,165 @@
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkWindow" id="VideoMode">
+    <property name="resizable">False</property>
+    <property name="skip_taskbar_hint">True</property>
+    <property name="decorated">False</property>
+    <property name="deletable">False</property>
+    <child>
+      <object class="GtkHBox" id="HorizontalBox2">
+        <property name="visible">True</property>
+        <property name="homogeneous">True</property>
+        <child>
+          <object class="GtkButton" id="480i">
+            <property name="label" translatable="yes">480i</property>
+            <property name="width_request">80</property>
+            <property name="height_request">80</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="released" handler="r480i_released"/>
+          </object>
+          <packing>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="576p">
+            <property name="label" translatable="yes">576p</property>
+            <property name="width_request">80</property>
+            <property name="height_request">80</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="released" handler="r576p_released"/>
+          </object>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="720p">
+            <property name="label" translatable="yes">720p</property>
+            <property name="width_request">80</property>
+            <property name="height_request">80</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="released" handler="r720p_released"/>
+          </object>
+          <packing>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="1080i">
+            <property name="label" translatable="yes">1080i</property>
+            <property name="width_request">80</property>
+            <property name="height_request">80</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="released" handler="r1080i_released"/>
+          </object>
+          <packing>
+            <property name="position">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="1080p">
+            <property name="label" translatable="yes">1080p</property>
+            <property name="width_request">80</property>
+            <property name="height_request">80</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="released" handler="r1080p_released"/>
+          </object>
+          <packing>
+            <property name="position">4</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow" id="Border">
+    <property name="resizable">False</property>
+    <property name="skip_taskbar_hint">True</property>
+    <property name="decorated">False</property>
+    <property name="deletable">False</property>
+    <child>
+      <object class="GtkHBox" id="HorizontalBox3">
+        <property name="visible">True</property>
+        <child>
+          <object class="GtkButton" id="FbsetOk">
+            <property name="width_request">80</property>
+            <property name="height_request">80</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="released" handler="FbsetOk_released"/>
+            <child>
+              <object class="GtkImage" id="image20">
+                <property name="visible">True</property>
+                <property name="pixbuf">Confirm.svg</property>
+                <property name="pixel_size">45</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkVBox" id="VerticalBox6">
+            <property name="visible">True</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkSpinButton" id="SpinButtonX">
+                <property name="width_request">160</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="max_length">4</property>
+                <property name="invisible_char">&#x25CF;</property>
+                <property name="adjustment">FbsetX</property>
+                <property name="climb_rate">1</property>
+                <property name="numeric">True</property>
+              </object>
+              <packing>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSpinButton" id="SpinButtonY">
+                <property name="width_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="max_length">4</property>
+                <property name="invisible_char">&#x25CF;</property>
+                <property name="caps_lock_warning">False</property>
+                <property name="adjustment">FbsetY</property>
+                <property name="climb_rate">1</property>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkAdjustment" id="FbsetX">
+    <property name="upper">3000</property>
+    <property name="step_increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="FbsetY">
+    <property name="upper">3000</property>
+    <property name="step_increment">1</property>
   </object>
 </interface>

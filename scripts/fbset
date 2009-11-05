@@ -1,0 +1,32 @@
+#!/bin/bash
+
+FBSET_FILE=/etc/init.d/fbset.sh
+
+FbsetX="$1"
+FbsetY="$2"
+
+echo "20"
+echo "-Installing fbset-"
+apt-get install fbset
+
+echo "30"
+echo "-Writing fbset values-"
+echo "#!/bin/sh -e" >> $FBSET_FILE
+echo "fbset -a -xres $FbsetX -yres $FbsetY -vxres $FbsetX -vyres $FbsetY" >> $FBSET_FILE
+echo "exit 0" >> $FBSET_FILE
+
+echo "20"
+echo "-Making fbset.sh executable-"
+chmod 755 /etc/init.d/fbset.sh
+
+echo "10"
+echo "-Creating symbolic link-"
+sudo ln -s /etc/init.d/fbset.sh /etc/rc2.d/S26fbset
+
+echo "10"
+echo "-Set screen to new resolution-"
+fbset -a -xres $FbsetX -yres $FbsetY -vxres $FbsetX -vyres $FbsetY
+
+echo "10"
+echo "Done, your new resolution is $FbsetX X $FbsetY"
+echo "Success"

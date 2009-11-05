@@ -2,51 +2,40 @@
 # kboot-ed
 # Usage - kboot-ed resolution_you_want 
 # Available res 480i 480p 576i 576p 720p 1080i 1080p 
-
+#
+# kboot.conf location
+# QuickSetup Log file
 
 KBOOT_FILE=/etc/kboot.conf
 
-JOBS="$1"
-MODE="$2"
-
-#kboot default values
-KBOOT_MODE=""
-KBOOT_="Ubuntu"
-KBOOT_TIMEOUT=10
-KBOOT_ROOT="root=/dev/sda1"
-LKBOOT_DEFAULT_LABEL="default=Ubuntu"
-
-if [ "$MODE" = "480i" ]; then
-	MODE="129"
+#get ps3videomode value for desired resolution - example: kboot-ed 720p
+value="$1"
+if [ "$value" = "480i" ]; then
+	VIDEO_RES="129"
 elif [ "$value" = "480p" ]; then
-	MODE="130"
+	VIDEO_RES="130"
 elif [ "$value" = "576i" ]; then
-	MODE="134"
+	VIDEO_RES="134"
 elif [ "$value" = "576p" ]; then
-	MODE="135"
-elif [ "$MODE" = "720p" ]; then
-	MODE="131"
-elif [ "$MODE" = "1080i" ]; then
-	MODE="132"
-elif [ "$MODE" = "1080p" ]; then
-	MODE="133"
+	VIDEO_RES="135"
+elif [ "$value" = "720p" ]; then
+	VIDEO_RES="131"
+elif [ "$value" = "1080i" ]; then
+	VIDEO_RES="132"
+elif [ "$value" = "1080p" ]; then
+	VIDEO_RES="133"
 else
-	echo "-Unsupported resolution, defaults to 720p"
-	MODE="131"
+	echo "-Unsupported video mode-"
+	VIDEO_RES="131"
 fi
-
-fbset_calc()
-{
-	sudo apt-get install fbset
-	sudo fbset
-}
 
 kboot_edit()
 {
-
-IFS=$'\t\n'
-#searches label id and timeout
-while read LINE
+	IFS=$'\t\n'
+	echo "20"
+	echo "-Reading current kboot.conf-"
+	#searches label id and timeout
+	while read LINE
 		do
 		if [ "$(echo "$LINE" | awk '{ print index($0,"default=") }')" != "0" ]; then
 				KBOOT_DEFAULT_LABEL=$LINE
@@ -55,11 +44,13 @@ while read LINE
 		if [ "$(echo "$LINE" | awk '{ print index($0,"timeout=") }')" != "0" ]; then
 				KBOOT_TIMEOUT=$LINE
 		fi	
-done <$KBOOT_FILE
+	done <$KBOOT_FILE
 
-IFS=$' \t\n'
-#searches root id and video mode (if used)
-while read LINE
+	IFS=$' \t\n'
+	#searches root id and video mode (if used)
+	echo "30"
+	echo "-Looking for root id and previous modes-"
+	while read LINE
 		do
 		for n in $LINE; do
 			if [ "$(echo "$n" | awk '{ print index($0,"root=UUID") }')" != "0" ]; then
@@ -69,27 +60,35 @@ while read LINE
 				KBOOT_MODE=$(echo "$n" | sed "s/'//g")
 			fi
 		done 	
-done <$KBOOT_FILE
+	done <$KBOOT_FILE
 
-# define labels
-KBOOT_LABEL=$(echo $KBOOT_L"='/boot/vmlinux")
-KBOOT_LABEL_OLD=$(echo $KBOOT_L" old='/boot/vmlinux.old")
-
-#backup kboot.conf file
-mv $KBOOT_FILE /tmp/kboot.conf.old 
-#creates a kboot.conf and then copies selected options
-echo "message=/etc/kboot.msg" >> $KBOOT_FILE
-echo "$KBOOT_DEFAULT_LABEL" >> $KBOOT_FILE
-echo "$KBOOT_TIMEOUT" >> $KBOOT_FILE
-echo "$KBOOT_LABEL initrd=/boot/initrd.img $KBOOT_ROOT quiet video=ps3fb:mode:$MODE'" >> $KBOOT_FILE
-echo "$KBOOT_LABEL_OLD initrd=/boot/initrd.img.old $KBOOT_ROOT quiet $KBOOT_MODE'" >> $KBOOT_FILE
+	#sets a default root
+	if [ "$KBOOT_ROOT" = "" ]; then
+		KBOOT_ROOT="root=/dev/sda1"
+	fi
+	if [ "$KBOOT_MODE" = "" ]; then
+		KBOOT_MODE=""
+	fi
+	echo "30"
+	echo "-Defining labels-"
+	# define labels
+	KBOOT_LABEL=$(echo $KBOOT_L"='/boot/vmlinux")
+	KBOOT_LABEL_OLD=$(echo $KBOOT_L" old='/boot/vmlinux.old")
+	
+	#backup kboot.conf file
+	echo "10"
+	echo "-Creating backup in /tmp/kboot.conf.old-"
+	mv $KBOOT_FILE /tmp/kboot.conf.old 
+	#creates a kboot.conf and then copies selected options
+	echo "message=/etc/kboot.msg" >> $KBOOT_FILE
+	echo "$KBOOT_DEFAULT_LABEL" >> $KBOOT_FILE
+	echo "$KBOOT_TIMEOUT" >> $KBOOT_FILE
+	echo "$KBOOT_LABEL initrd=/boot/initrd.img $KBOOT_ROOT quiet video=ps3fb:mode:$VIDEO_RES'" >> $KBOOT_FILE
+	echo "$KBOOT_LABEL_OLD initrd=/boot/initrd.img.old $KBOOT_ROOT quiet $KBOOT_MODE'" >> $KBOOT_FILE
+	
+	echo "10"
+	echo "-Changed resolution to $value-"
+	echo "Success"
 }
-if [ "$JOBS" = "both" ]; then
-	kboot_edit
-	fbset_calc
-	fbset_edit
-elif [ "$JOBS" = "fbset" ]; then
-	fbset_edit
-elif [ "$JOBS" = "video" ]; then
-	kboot_edit
-fi
+
+kboot_edit

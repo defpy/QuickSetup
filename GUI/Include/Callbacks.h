@@ -29,4 +29,12 @@ G_MODULE_EXPORT void Wacom_released();
 G_MODULE_EXPORT void Resolution_released();
 G_MODULE_EXPORT void Borders_released();
 
+G_MODULE_EXPORT void r480i_released();
+G_MODULE_EXPORT void r576p_released();
+G_MODULE_EXPORT void r720p_released();
+G_MODULE_EXPORT void r1080i_released();
+G_MODULE_EXPORT void r1080p_released();
+
+G_MODULE_EXPORT void FbsetOk_released();
+
 #endif
