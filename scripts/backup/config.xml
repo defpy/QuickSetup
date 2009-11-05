@@ -1,6 +1,0 @@
-<UserScriptConfig>
-	<Script filename="youtube_without_flashx.user.js" name="Youtube without Flash Auto" namespace="none" description="Adds links below the Youtube video to (a) download the video (HD .mp4 file, no converters are used, no external sites) (b) view the video with an embedded external player (like mplayerplug-in or the totem plugin) " enabled="false" basedir="youtube_without_flashx">
-		<Include>http://youtube.*/watch*</Include>
-		<Include>http://*.youtube.*/watch*</Include>
-	</Script>
-</UserScriptConfig>
