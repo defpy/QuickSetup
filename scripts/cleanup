@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [ -f .internet_check.log ]; then
+	rm .internet_check.log
+fi
+
+if [ -f .xorg-o.log ]; then
+	rm .xorg-o.log
+fi
+
+if [ -f scripts/.wacom-out.log ]; then
+	rm scripts/.wacom-out.log
+fi
+
+if [ -f scripts/.xorg-out.log ]; then
+	rm scripts/.xorg-out.log
+fi
+
+if [ -f scripts/.home_path ]; then
+	rm scripts/.home_path
+fi

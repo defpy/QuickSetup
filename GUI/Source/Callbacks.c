@@ -122,6 +122,23 @@ G_MODULE_EXPORT void Resolution_released()
 G_MODULE_EXPORT void Borders_released()
 {
 	ResetBar();
+	FILE* STREAM = popen("scripts/fbset read", "r");
+	char* STREAM_OUT;
+	int x, y;
+
+	if(!STREAM)
+	{
+		printf("Could not execute scripts/fbset read.\n");
+	}
+	else
+	{
+		fgets(STREAM_OUT, 10, STREAM);
+		x = atoi(STREAM_OUT);
+		fgets(STREAM_OUT, 10, STREAM);
+		y = atoi(STREAM_OUT);
+		gtk_adjustment_set_value(FBSETX, x);
+		gtk_adjustment_set_value(FBSETY, y);
+	}
 	gtk_widget_show(Window_Borders);
 	gtk_widget_hide(Window_VideoMode);
 }

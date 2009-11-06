@@ -6,29 +6,51 @@ FBSET_OLD=/etc/init.d/fbset.sh.old
 FbsetX="$1"
 FbsetY="$2"
 
-echo "20"
-echo "-Installing fbset-"
-apt-get install fbset
+GetNum()
+{
+	echo $6
+	echo $8
+}
 
+ReadFbset ()
+{
+	if [ -f $FBSET_FILE ]; then
+		FBSET_CONTENTS=`cat /etc/init.d/fbset.sh`
+		GetNum $FBSET_CONTENTS
+	fi
+}
+WriteFbset ()
+{
+	if [ -f $FBSET_FILE ]; then
+		mv $FBSET_FILE $FBSET_OLD
+	else
+		echo "20"
+		echo "-Installing fbset-"
+		apt-get install fbset
+	fi
 
-if [ -f $FBSET_FILE ]; then
-	mv $FBSET_FILE $FBSET_OLD
+	echo "30"
+	echo "-Writing fbset values-"
+	echo "#!/bin/sh -e" >> $FBSET_FILE
+	echo "fbset -a -xres $FbsetX -yres $FbsetY -vxres $FbsetX -vyres $FbsetY" >> $FBSET_FILE
+	echo "exit 0" >> $FBSET_FILE
+
+	echo "30"
+	echo "-Making fbset.sh executable-"
+	chmod 755 /etc/init.d/fbset.sh
+
+	echo "20"
+	echo "-Creating symbolic link-"
+	sudo ln -s /etc/init.d/fbset.sh /etc/rc2.d/S26fbset
+
+	echo "40"
+	echo "-Done, your new resolution is $FbsetX X $FbsetY-"
+	echo "Success"
+}
+
+if [ $1 = "read" ]; then
+	ReadFbset
+else
+	WriteFbset
 fi
 
-echo "30"
-echo "-Writing fbset values-"
-echo "#!/bin/sh -e" >> $FBSET_FILE
-echo "fbset -a -xres $FbsetX -yres $FbsetY -vxres $FbsetX -vyres $FbsetY" >> $FBSET_FILE
-echo "exit 0" >> $FBSET_FILE
-
-echo "20"
-echo "-Making fbset.sh executable-"
-chmod 755 /etc/init.d/fbset.sh
-
-echo "10"
-echo "-Creating symbolic link-"
-sudo ln -s /etc/init.d/fbset.sh /etc/rc2.d/S26fbset
-
-echo "20"
-echo "Done, your new resolution is $FbsetX X $FbsetY"
-echo "Success"

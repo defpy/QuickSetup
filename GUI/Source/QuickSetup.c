@@ -32,7 +32,8 @@ int main (int argc, char *argv[])
 
 	gtk_main ();
 
-	system("rm .internet_check.log");
+	system("scripts/cleanup");
+
 	return 0;
 }
 
