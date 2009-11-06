@@ -4,7 +4,7 @@
 # Usage: other-install ( packages full-install non-available medibuntu ) one option at a time
 # by defpy
 
-HOME=$(head .home_path)
+HOME=$(head scripts/.home_path)
 
 # Files to be installed
 # ATTENTION - Names and URLs must be separated by spaces

@@ -2,8 +2,6 @@
 #
 # Disable ubuntu services located in /etc/init.d
 
-
-
 # List of services to be disabled (must be separated by spaces)
 SERVICES="bluetooth cups cron anacron laptop-mode"
 # Change percentage according to the number of services

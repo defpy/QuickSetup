@@ -46,7 +46,7 @@ echo "Internet: "$(head $INTERNET_CHECK)
 if [ "$PWD" == "${HOME}/QuickSetup" ]; then
    echo "Location: ok"
    ck_internet
-   gksu -D QuickSetup ${HOME}/QuickSetup/GUI/QuickSetup
+   gksu -S -D QuickSetup ${HOME}/QuickSetup/GUI/QuickSetup
 else
    echo "Location: not ok"
    mkdir -p $LOCAL_SETUP
