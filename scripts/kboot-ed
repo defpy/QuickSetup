@@ -8,6 +8,13 @@
 
 KBOOT_FILE=/etc/kboot.conf
 
+#kboot default values
+KBOOT_MODE=""
+KBOOT_="Ubuntu"
+KBOOT_TIMEOUT=10
+KBOOT_ROOT="root=/dev/sda1"
+KBOOT_DEFAULT_LABEL="default=Ubuntu"
+
 #get ps3videomode value for desired resolution - example: kboot-ed 720p
 value="$1"
 if [ "$value" = "480i" ]; then
@@ -26,7 +33,7 @@ elif [ "$value" = "1080p" ]; then
 	VIDEO_RES="133"
 else
 	echo "-Unsupported video mode-"
-	VIDEO_RES="131"
+	VIDEO_RES="131" 
 fi
 
 kboot_edit()
@@ -62,13 +69,6 @@ kboot_edit()
 		done 	
 	done <$KBOOT_FILE
 
-	#sets a default root
-	if [ "$KBOOT_ROOT" = "" ]; then
-		KBOOT_ROOT="root=/dev/sda1"
-	fi
-	if [ "$KBOOT_MODE" = "" ]; then
-		KBOOT_MODE=""
-	fi
 	echo "30"
 	echo "-Defining labels-"
 	# define labels
