@@ -77,8 +77,8 @@ kboot_edit()
 	
 	#backup kboot.conf file
 	echo "10"
-	echo "-Creating backup in /tmp/kboot.conf.old-"
-	mv $KBOOT_FILE /tmp/kboot.conf.old 
+	echo "-Creating backup in /etc/kboot.conf.old-"
+	mv $KBOOT_FILE /etc/kboot.conf.old 
 	#creates a kboot.conf and then copies selected options
 	echo "message=/etc/kboot.msg" >> $KBOOT_FILE
 	echo "$KBOOT_DEFAULT_LABEL" >> $KBOOT_FILE
