@@ -10,8 +10,8 @@ KBOOT_FILE=/etc/kboot.conf
 
 #kboot default values
 KBOOT_MODE=""
-KBOOT_="Ubuntu"
-KBOOT_TIMEOUT=10
+KBOOT_L="Ubuntu"
+KBOOT_TIMEOUT="timeout=10"
 KBOOT_ROOT="root=/dev/sda1"
 KBOOT_DEFAULT_LABEL="default=Ubuntu"
 
