@@ -63,7 +63,7 @@ else
 	echo "http://streamer-mtc-aa02.somafm.com:80/stream/1073" >> $LIST_RADIO
 fi
 
-export script='<window window_position="1" title="GoPlayer 0.3">
+export script='<window window_position="1" title="GoPlayer 0.3" >
 <vbox>
   <menubar>
     <menu>
@@ -112,10 +112,9 @@ export script='<window window_position="1" title="GoPlayer 0.3">
 	<label>About</label>
     </menu>
   </menubar>
-  <hbox><vbox>  <button tooltip-text="GoPlayer">
+  <hbox><vbox>  <pixmap tooltip-text="GoPlayer">
     <input file>/tmp/goplay.png</input>
-	<action>echo "GoPlayer" </action>
-  </button>
+  </pixmap>
   <hbox>
   <button tooltip-text="Start">
     <input file stock="gtk-media-play"></input>
@@ -142,34 +141,35 @@ export script='<window window_position="1" title="GoPlayer 0.3">
 	 <action>refresh:NOW</action>
 	<action> mpg321 --shuffle --list $LIST_F &</action>
   </button></hbox>
-  </vbox><notebook labels="Local|Radio|Video">
-<tree rules_hint="true" hover-selection="true" tooltip-text="Select items in the playlist">
+  </vbox>
+  <frame><notebook labels="Local|Radio|Video">
+<tree rules_hint="true" hover-selection="true" tooltip-text="Select mp3 to play">
  <label>Playlist</label>
  <input>cat $LIST </input>
  <variable>TREE</variable>
- <height>190</height><width>450</width>
+ <height>200</height><width>450</width>
  <action signal="button-press-event">echo $TREE > $NOW_PLAYING; killall mpg321; killall ffplay</action>
   <action>refresh:NOW</action>
  <action signal="button-release-event">mpg321 $(head $LOCAL)"/"$(head $NOW_PLAYING) & </action>
 </tree> 
-<tree tooltip-text="Select items in the playlist">
+<tree tooltip-text="Select radio station">
  <label>Playlist: goplayradio.m3u</label>
  <input>cat $LIST_RADIO </input>
  <variable>TREE_R</variable>
- <height>190</height><width>450</width>
+ <height>200</height><width>450</width>
  <action signal="button-press-event">echo $TREE_R > $NOW_PLAYING; killall mpg321; killall ffplay</action>
   <action>refresh:NOW</action>
  <action signal="button-release-event">mpg321 $(head $NOW_PLAYING) & </action>
 </tree> 
-<tree tooltip-text="Select items in the playlist">
+<tree tooltip-text="Select video to play">
  <label>Files</label>
  <input>cat $LIST_VIDEO </input>
  <variable>TREE_V</variable>
- <height>190</height><width>450</width>
+ <height>200</height><width>450</width>
  <action signal="button-press-event">echo $TREE_V > $NOW_PLAYING; killall mpg321; killall ffplay</action>
   <action>refresh:NOW</action>
   <action>ffplay -x 640 -y 405 $(head $LOCAL_V)"/"$(head $NOW_PLAYING) & </action>
-</tree></notebook>
+</tree></notebook></frame>
 <vbox><text><label>Vol.</label></text><button tooltip-text="Volume up">
     <input file icon="gtk-go-up"></input>
     <action>amixer -q set PCM 20+ unmute</action>
@@ -181,7 +181,7 @@ export script='<window window_position="1" title="GoPlayer 0.3">
 </hbox>
 <hbox>
 <entry has_frame="false" editable="false" tooltip-text="Status"><variable>NOW</variable><input>echo $(head -1 $NOW_PLAYING)</input></entry>
-<vbox>
+
  <button tooltip-text="Refresh">
     <input file icon="gtk-refresh"></input><label>Refresh playlist</label>
     <action>ls -1 $(head $LOCAL) | grep -i ".mp3" > $LIST</action>
@@ -189,19 +189,11 @@ export script='<window window_position="1" title="GoPlayer 0.3">
 	<action>refresh:TREE</action>
 	<action>refresh:TREE_R</action>
 	<action>refresh:TREE_V</action>
-  </button></vbox>
+  </button>
  </hbox>
  </vbox>
 </window>'
 
 #(gtkdialog --program=script) | mpg321 -q -R start
 
-EXIT="refresh"
-while [ "$EXIT" = "refresh" ]
-do
-GUI=$(gtkdialog --program=script)
-eval $(grep EXIT <<< "$GUI")
-[ -z "$GUI" ] && exit
-done
-
-exit
+gtkdialog --program=script
