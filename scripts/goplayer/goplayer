@@ -60,9 +60,10 @@ else
 	echo "Absolute Radio @http://mp3-vr-128.as34763.net:80/ " >> $LIST_RADIO
 	echo "Absolute Xtreme @http://mp3-vx-128.as34763.net:80/" >> $LIST_RADIO
 	echo "Absolute Classic Rock @http://mp3-vc-128.as34763.net:80/" >> $LIST_RADIO
-	echo "SomaFM @http://streamer-ntc-aa01.somafm.com:80/stream/1021" >> $LIST_RADIO
-	echo "SomaFM @http://streamer-mtc-aa04.somafm.com:80/stream/1018" >> $LIST_RADIO
-	echo "SomaFM @http://streamer-mtc-aa02.somafm.com:80/stream/1073" >> $LIST_RADIO
+	echo "SomaFM: Groove Salad @http://streamer-ntc-aa07.somafm.com:80/stream/1018" >> $LIST_RADIO
+	echo "SomaFM: Lush @http://streamer-ntc-aa02.somafm.com:80/stream/1073" >> $LIST_RADIO
+	echo "SomaFM: Secret Agent @http://streamer-mtc-aa02.somafm.com:80/stream/1021" >> $LIST_RADIO
+	echo "SomaFM: Drone Zone @http://streamer-ntc-aa01.somafm.com:80/stream/1032" >> $LIST_RADIO
 fi
 
 
@@ -158,9 +159,10 @@ export script='<window window_position="1" title="GoPlayer 0.3" icon_name="gtk-c
 		<action>echo "Absolute Radio @http://mp3-vr-128.as34763.net:80/ " >> $LIST_RADIO</action>
 		<action>echo "Absolute Xtreme @http://mp3-vx-128.as34763.net:80/" >> $LIST_RADIO</action>
 		<action>echo "Absolute Classic Rock @http://mp3-vc-128.as34763.net:80/" >> $LIST_RADIO</action>
-		<action>echo "SomaFM @http://streamer-ntc-aa01.somafm.com:80/stream/1021" >> $LIST_RADIO</action>
-		<action>echo "SomaFM @http://streamer-mtc-aa04.somafm.com:80/stream/1018" >> $LIST_RADIO</action>
-		<action>echo "SomaFM @http://streamer-mtc-aa02.somafm.com:80/stream/1073" >> $LIST_RADIO</action>
+		<action>echo "SomaFM: Groove Salad @http://streamer-ntc-aa07.somafm.com:80/stream/1018" >> $LIST_RADIO</action>
+		<action>echo "SomaFM: Lush @http://streamer-ntc-aa02.somafm.com:80/stream/1073" >> $LIST_RADIO</action>
+		<action>echo "SomaFM: Secret Agent @http://streamer-mtc-aa02.somafm.com:80/stream/1021" >> $LIST_RADIO</action>
+		<action>echo "SomaFM: Drone Zone @http://streamer-ntc-aa01.somafm.com:80/stream/1032" >> $LIST_RADIO</action>
 		<action>refresh:TREE_R</action>
 		<action>refresh:NOW</action>
 	</menuitem>
