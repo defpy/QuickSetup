@@ -66,7 +66,7 @@ else
 	echo "SomaFM: Drone Zone @http://streamer-ntc-aa01.somafm.com:80/stream/1032" >> $LIST_RADIO
 fi
 
-export about='<window window_position="3" title="GoPlayer - About" icon_name="gtk-cdrom">
+export about='<window window_position="3" title="GoPlayer - About" icon_name="gtk-cdrom" resizable="false">
  <vbox>
   <frame><pixmap tooltip-text="GoPlayer">
     <input file>/tmp/goplay.png</input>
@@ -275,7 +275,8 @@ export script='<window window_position="1" title="GoPlayer 0.3" icon_name="gtk-c
 	<label>About</label>
     </menu>
   </menubar>
-  <hbox><vbox>  <pixmap tooltip-text="GoPlayer">
+  <hbox><vbox>  
+  <pixmap tooltip-text="GoPlayer">
     <input file>/tmp/goplay.png</input>
   </pixmap>
   <hbox>
@@ -304,7 +305,7 @@ export script='<window window_position="1" title="GoPlayer 0.3" icon_name="gtk-c
 	 <action>refresh:NOW</action>
 	<action> mpg321 --shuffle --list $LIST_F &</action>
   </button></hbox>
-  </vbox>
+  </vbox> 
   <frame><notebook labels="Local|Radio|Video">
 <tree rules_hint="true" hover-selection="true" tooltip-text="Select mp3 to play">
  <label>Playlist</label>
@@ -331,7 +332,7 @@ export script='<window window_position="1" title="GoPlayer 0.3" icon_name="gtk-c
  <height>200</height><width>450</width>
  <action signal="button-press-event">echo $TREE_V > $NOW_PLAYING; killall mpg321; killall ffplay</action>
   <action>refresh:NOW</action>
-  <action>ffplay -x 640 -y 405 $(head $LOCAL_V)"/"$(head $NOW_PLAYING) & </action>
+  <action signal="button-release-event">ffplay -x 640 -y 405 $(head $LOCAL_V)"/"$(head $NOW_PLAYING) & </action>
 </tree></notebook></frame>
 <vbox><text><label>Vol.</label></text><button tooltip-text="Volume up">
     <input file icon="gtk-go-up"></input>
