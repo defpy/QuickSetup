@@ -66,6 +66,78 @@ else
 	echo "SomaFM: Drone Zone @http://streamer-ntc-aa01.somafm.com:80/stream/1032" >> $LIST_RADIO
 fi
 
+export about='<window window_position="3" title="GoPlayer - About" icon_name="gtk-cdrom">
+ <vbox>
+  <frame><pixmap tooltip-text="GoPlayer">
+    <input file>/tmp/goplay.png</input>
+  </pixmap>
+  <text>
+    <label>- GoPlayer 0.3 -</label>
+  </text>
+  <text wrap="true" width-chars="50">
+    <label>Simple media player front-end written in gtkdialog and bash that relies on mpg321 for mp3 files, ffmpeg (ffplay) for video files and youtube-dl for youtube downloads.</label>
+  </text>
+  <text>
+    <label>- by defpy (defpy@jabber.org) -</label>
+  </text>
+
+ </frame>
+  <hbox>
+   <button ok></button>
+  </hbox>
+ </vbox>
+</window>'
+
+export dir='<window window_position="3" title="GoPlayer - Select default media directory" icon_name="gtk-cdrom">
+<vbox>
+  <frame Default directories>
+ <text wrap="true" width-chars="60">
+    <label>Select mp3 and video default directories. These locations will be used as base for playlists in the main window</label>
+  </text>
+    <hbox><text>
+    <label>Music directory</label>
+  </text>
+      <entry accept="directory">
+        <variable>MUSIC_DIRECTORY</variable>
+      </entry>
+      <button>
+        <input file stock="gtk-open"></input>
+        <variable>MUSIC_DIR</variable>
+        <action type="fileselect">MUSIC_DIRECTORY</action>
+      </button>
+	   <button ok>
+	   <action>echo "$MUSIC_DIRECTORY" > $LOCAL; ls -1 $(head $LOCAL) | grep -i ".mp3" > $LIST; find $(head $LOCAL) -type f -name "*.mp3" | sort -n > $LIST_F</action>
+	  <action type="exit">exit</action>
+	</button>
+	</hbox>
+    <hbox><text>
+    <label>Video directory</label>
+  </text>
+      <entry accept="directory">
+        <variable>VIDEO_DIRECTORY</variable>
+      </entry>
+      <button>
+        <input file stock="gtk-open"></input>
+        <variable>VIDEO_DIR</variable>
+		<action>cd ${HOME}</action>
+        <action type="fileselect">VIDEO_DIRECTORY</action>
+      </button>
+	  <button ok>
+	  <action>echo "$VIDEO_DIRECTORY" > $LOCAL_V ; ls -1 $(head $LOCAL_V) | grep -i -E "(.avi|.flv|.mp4|.rmvb|.mkv)$" > $LIST_VIDEO </action>
+		<action type="exit">exit</action>
+	 </button>
+    </hbox>
+  </frame>
+    <hbox>
+   <button ok>
+    <action>echo "$MUSIC_DIRECTORY" > $LOCAL; ls -1 $(head $LOCAL) | grep -i ".mp3" > $LIST; find $(head $LOCAL) -type f -name "*.mp3" | sort -n > $LIST_F</action>
+	<action>echo "$VIDEO_DIRECTORY" > $LOCAL_V ; ls -1 $(head $LOCAL_V) | grep -i -E "(.avi|.flv|.mp4|.rmvb|.mkv)$" > $LIST_VIDEO </action>
+	<action type="exit">exit</action>
+   </button>
+   <button cancel></button>
+  </hbox>
+  </vbox>
+</window>'
 
 export radio_delete='<window window_position="1" title="GoPlayer - Delete Station" icon_name="gtk-cdrom">
 <frame>
@@ -83,12 +155,12 @@ export radio_delete='<window window_position="1" title="GoPlayer - Delete Statio
 </frame>
 </window>'
 
-export radio='<window window_position="1" title="GoPlayer - Add Station" icon_name="gtk-cdrom">
+export radio='<window window_position="3" title="GoPlayer - Add Station" icon_name="gtk-cdrom">
  <vbox>
   <frame>
   <hbox> 
     <text>
-      <label>Title:</label>
+      <label>Station title:</label>
     </text>
     <entry activates_default="true">
       <default>New Station</default>
@@ -97,9 +169,9 @@ export radio='<window window_position="1" title="GoPlayer - Add Station" icon_na
   </hbox>
   <hbox>
     <text>
-      <label>Station URL:</label>
+      <label>Station URL: </label>
     </text>
-    <entry>
+    <entry width_chars="45">
       <variable>URL</variable>
     </entry>
   </hbox>
@@ -107,6 +179,30 @@ export radio='<window window_position="1" title="GoPlayer - Add Station" icon_na
    <button ok>
     <action>echo $STATION" @"$URL >> $LIST_RADIO</action>
    <action>refresh:TREE_R</action>
+   <action type="exit">exit</action>
+   </button>
+   <button cancel></button>
+  </hbox> </frame>
+ </vbox></window>
+'
+
+export youtube='<window window_position="3" title="GoPlayer - Download Youtube video" icon_name="gtk-cdrom">
+ <vbox>
+  <frame>
+  <hbox>
+    <text>
+      <label>Youtube URL:</label>
+    </text>
+    <entry width_chars="45">
+      <variable>URL</variable>
+    </entry>  
+	</hbox>
+  <hbox>
+   <button ok>
+	 <action>youtube-dl -l $URL &</action>
+		<action>ls -1 $LOCAL_DIR_V | grep -i -E "(.avi|.flv|.mp4|.rmvb|.mkv)$" | sort -M -r  > $LIST_VIDEO</action>
+		<action>refresh:TREE_V</action>
+		<action>refresh:NOW</action>
    <action type="exit">exit</action>
    </button>
    <button cancel></button>
@@ -137,20 +233,20 @@ export script='<window window_position="1" title="GoPlayer 0.3" icon_name="gtk-c
       <label>File</label>
     </menu>
     <menu>
-	<menuitem icon="gtk-convert"><label>Download youtube video</label>
-        <action>cd $(head $LOCAL_V); FILE=$(zenity --width=210 --entry --title "GoPlayer" --window-icon=/usr/share/icons/Tango/32x32/status/sunny.png --text "Youtube URL:"); youtube-dl -l $FILE &</action>
-		<action>ls -1 $LOCAL_DIR_V | grep -i -E "(.avi|.flv|.mp4|.rmvb|.mkv)$" | sort -M -r  > $LIST_VIDEO</action>
+	<menuitem icon="gtk-open"><label>Default media directories</label>
+        <action>gtkdialog --program=dir</action>
+		<action>refresh:TREE</action>
 		<action>refresh:TREE_V</action>
-		<action>refresh:NOW</action>
+	  <action>refresh:NOW</action>
 	</menuitem>
 	<menuitem icon="gtk-add"><label>Add radio station</label>
-	<action>gtkdialog --program=radio &</action>
+	<action>gtkdialog --program=radio</action>
 		<action>STATION="New station"</action>
 		<action>refresh:TREE_R</action>
 		<action>refresh:NOW</action>
 	</menuitem>
 	<menuitem icon="gtk-remove"><label>Remove radio station</label>
-		<action>gtkdialog --program=radio_delete &</action>
+		<action>gtkdialog --program=radio_delete</action>
 		<action>refresh:TREE_R</action>
 		<action>refresh:NOW</action>
 	</menuitem>
@@ -166,22 +262,15 @@ export script='<window window_position="1" title="GoPlayer 0.3" icon_name="gtk-c
 		<action>refresh:TREE_R</action>
 		<action>refresh:NOW</action>
 	</menuitem>
-	<menuitem icon="gtk-open"><label>Default mp3 directory</label>
-        <action>cd ${HOME}; echo $(zenity --file-selection --window-icon=/usr/share/icons/Tango/32x32/status/sunny.png --directory --title="Select a mp3 directory") > $LOCAL; ls -1 $(head $LOCAL) | grep -i ".mp3" > $LIST; find $(head $LOCAL) -type f -name "*.mp3" | sort -n > $LIST_F</action>
-		<action>refresh:TREE</action>
-		<action>refresh:NOW</action>
-	</menuitem>
-	<menuitem icon="gtk-open"><label>Default video directory</label>
-        <action>cd ${HOME}; echo $(zenity --file-selection --window-icon=/usr/share/icons/Tango/32x32/status/sunny.png --directory --title="Select a video directory") > $LOCAL_V ; ls -1 $(head $LOCAL_V) | grep -i -E "(.avi|.flv|.mp4|.rmvb|.mkv)$" > $LIST_VIDEO </action>
-		<action>refresh:TREE_V</action>
-		<action>refresh:NOW</action>
+		<menuitem icon="gtk-convert"><label>Download youtube video</label>
+       	<action>gtkdialog --program=youtube &</action>
 	</menuitem>
       <label>Option</label>
     </menu>
     <menu>
 	<menuitem icon="gtk-about">
 	  <label>About GoPlayer</label>
-	  <action>zenity --info --window-icon=/usr/share/icons/Tango/32x32/status/sunny.png --text "GoPlayer 0.3\n\nSimple media player that relies on mpg321 for mp3,\nffplay for video files and youtube-dl for youtube downloads\n\nby defpy (defpy@jabber.org)" &</action>
+	  <action>gtkdialog --program=about &</action>
 	</menuitem>
 	<label>About</label>
     </menu>
