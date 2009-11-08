@@ -4,6 +4,8 @@
 # Simple media player that relies on mpg321 for mp3 and ffplay for video files
 
 export IFS=$'\t\n'
+export OLD_IFS=$'\t\n'
+export SIFS=@
 export LOCAL=${HOME}/.goplayer-home
 export LOCAL_V=${HOME}/.goplayer-home-video
 export LOCAL_DIR="$(head $LOCAL)"
@@ -55,13 +57,61 @@ if [ -e "$LIST_RADIO" ]; then
 	echo "Online radio playlist available"
 else
 	echo "Playlist not found, creating default list"
-	echo "http://mp3-vr-128.as34763.net:80/ Absolute Radio" >> $LIST_RADIO
-	echo "http://mp3-vx-128.as34763.net:80/ Absolute Xtreme" >> $LIST_RADIO
-	echo "http://mp3-vc-128.as34763.net:80/ Absolute Classic Rock" >> $LIST_RADIO
-	echo "http://streamer-ntc-aa01.somafm.com:80/stream/1021" >> $LIST_RADIO
-	echo "http://streamer-mtc-aa04.somafm.com:80/stream/1018" >> $LIST_RADIO
-	echo "http://streamer-mtc-aa02.somafm.com:80/stream/1073" >> $LIST_RADIO
+	echo "Absolute Radio @http://mp3-vr-128.as34763.net:80/ " >> $LIST_RADIO
+	echo "Absolute Xtreme @http://mp3-vx-128.as34763.net:80/" >> $LIST_RADIO
+	echo "Absolute Classic Rock @http://mp3-vc-128.as34763.net:80/" >> $LIST_RADIO
+	echo "SomaFM @http://streamer-ntc-aa01.somafm.com:80/stream/1021" >> $LIST_RADIO
+	echo "SomaFM @http://streamer-mtc-aa04.somafm.com:80/stream/1018" >> $LIST_RADIO
+	echo "SomaFM @http://streamer-mtc-aa02.somafm.com:80/stream/1073" >> $LIST_RADIO
 fi
+
+
+export radio_delete='<window title="GoPlayer - Delete Station">
+<frame>
+<tree tooltip-text="Select radio station to delete">
+ <label>Select radio station to delete</label>
+ <input>cat $LIST_RADIO </input>
+ <variable>TREE_D</variable>
+ <height>200</height><width>450</width>
+</tree>
+<hbox> <button ok>
+   <action>sed -ie "\|^$TREE_D\$|d" $LIST_RADIO</action>
+   <action type="exit">exit</action>
+   </button>
+   <button cancel></button></hbox>
+</frame>
+</window>'
+
+export radio='<window title="GoPlayer - Add Station" >
+ <vbox>
+  <frame>
+  <hbox> 
+    <text>
+      <label>Title:</label>
+    </text>
+    <entry activates_default="true">
+      <default>New Station</default>
+      <variable>STATION</variable>
+    </entry>
+  </hbox>
+  <hbox>
+    <text>
+      <label>Station URL:</label>
+    </text>
+    <entry>
+      <variable>URL</variable>
+    </entry>
+  </hbox>
+  <hbox>
+   <button ok>
+    <action>echo $STATION" @"$URL >> $LIST_RADIO</action>
+   <action>refresh:TREE_R</action>
+   <action type="exit">exit</action>
+   </button>
+   <button cancel></button>
+  </hbox> </frame>
+ </vbox></window>
+'
 
 export script='<window window_position="1" title="GoPlayer 0.3" >
 <vbox>
@@ -87,9 +137,31 @@ export script='<window window_position="1" title="GoPlayer 0.3" >
     </menu>
     <menu>
 	<menuitem icon="gtk-convert"><label>Download youtube video</label>
-        <action>cd $(head $LOCAL_V); FILE=$(zenity --width=210 --entry --title "Medx" --window-icon=/usr/share/icons/Tango/32x32/status/sunny.png --text "Youtube URL:"); youtube-dl -l $FILE &</action>
+        <action>cd $(head $LOCAL_V); FILE=$(zenity --width=210 --entry --title "GoPlayer" --window-icon=/usr/share/icons/Tango/32x32/status/sunny.png --text "Youtube URL:"); youtube-dl -l $FILE &</action>
 		<action>ls -1 $LOCAL_DIR_V | grep -i -E "(.avi|.flv|.mp4|.rmvb|.mkv)$" | sort -M -r  > $LIST_VIDEO</action>
 		<action>refresh:TREE_V</action>
+		<action>refresh:NOW</action>
+	</menuitem>
+	<menuitem icon="gtk-add"><label>Add radio station</label>
+	<action>gtkdialog --program=radio &</action>
+		<action>STATION="New station"</action>
+		<action>refresh:TREE_R</action>
+		<action>refresh:NOW</action>
+	</menuitem>
+	<menuitem icon="gtk-remove"><label>Remove radio station</label>
+		<action>gtkdialog --program=radio_delete &</action>
+		<action>refresh:TREE_R</action>
+		<action>refresh:NOW</action>
+	</menuitem>
+	<menuitem icon="gtk-cdrom"><label>Restore default radio stations</label>
+		<action>rm $LIST_RADIO</action>
+		<action>echo "Absolute Radio @http://mp3-vr-128.as34763.net:80/ " >> $LIST_RADIO</action>
+		<action>echo "Absolute Xtreme @http://mp3-vx-128.as34763.net:80/" >> $LIST_RADIO</action>
+		<action>echo "Absolute Classic Rock @http://mp3-vc-128.as34763.net:80/" >> $LIST_RADIO</action>
+		<action>echo "SomaFM @http://streamer-ntc-aa01.somafm.com:80/stream/1021" >> $LIST_RADIO</action>
+		<action>echo "SomaFM @http://streamer-mtc-aa04.somafm.com:80/stream/1018" >> $LIST_RADIO</action>
+		<action>echo "SomaFM @http://streamer-mtc-aa02.somafm.com:80/stream/1073" >> $LIST_RADIO</action>
+		<action>refresh:TREE_R</action>
 		<action>refresh:NOW</action>
 	</menuitem>
 	<menuitem icon="gtk-open"><label>Default mp3 directory</label>
@@ -159,7 +231,7 @@ export script='<window window_position="1" title="GoPlayer 0.3" >
  <height>200</height><width>450</width>
  <action signal="button-press-event">echo $TREE_R > $NOW_PLAYING; killall mpg321; killall ffplay</action>
   <action>refresh:NOW</action>
- <action signal="button-release-event">mpg321 $(head $NOW_PLAYING) & </action>
+ <action signal="button-release-event">IFS=$SIFS; get(){ echo $2; }; mpg321 $(get $TREE_R) & IFS=$OLD_IFS </action>
 </tree> 
 <tree tooltip-text="Select video to play">
  <label>Files</label>
@@ -193,6 +265,7 @@ export script='<window window_position="1" title="GoPlayer 0.3" >
  </hbox>
  </vbox>
 </window>'
+
 
 #(gtkdialog --program=script) | mpg321 -q -R start
 
