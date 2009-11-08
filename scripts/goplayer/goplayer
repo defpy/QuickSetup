@@ -67,13 +67,13 @@ else
 fi
 
 
-export radio_delete='<window title="GoPlayer - Delete Station" icon_name="gtk-cdrom">
+export radio_delete='<window window_position="1" title="GoPlayer - Delete Station" icon_name="gtk-cdrom">
 <frame>
 <tree tooltip-text="Select radio station to delete">
  <label>Select radio station to delete</label>
  <input>cat $LIST_RADIO </input>
  <variable>TREE_D</variable>
- <height>200</height><width>450</width>
+ <height>250</height><width>570</width>
 </tree>
 <hbox> <button ok>
    <action>sed -ie "\|^$TREE_D\$|d" $LIST_RADIO</action>
@@ -83,7 +83,7 @@ export radio_delete='<window title="GoPlayer - Delete Station" icon_name="gtk-cd
 </frame>
 </window>'
 
-export radio='<window title="GoPlayer - Add Station" icon_name="gtk-cdrom">
+export radio='<window window_position="1" title="GoPlayer - Add Station" icon_name="gtk-cdrom">
  <vbox>
   <frame>
   <hbox> 
@@ -227,7 +227,7 @@ export script='<window window_position="1" title="GoPlayer 0.3" icon_name="gtk-c
  <action signal="button-release-event">mpg321 $(head $LOCAL)"/"$(head $NOW_PLAYING) & </action>
 </tree> 
 <tree tooltip-text="Select radio station">
- <label>Playlist: goplayradio.m3u</label>
+ <label>Stations</label>
  <input>cat $LIST_RADIO </input>
  <variable>TREE_R</variable>
  <height>200</height><width>450</width>
@@ -267,8 +267,5 @@ export script='<window window_position="1" title="GoPlayer 0.3" icon_name="gtk-c
  </hbox>
  </vbox>
 </window>'
-
-
-#(gtkdialog --program=script) | mpg321 -q -R start
 
 gtkdialog --program=script
