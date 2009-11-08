@@ -66,7 +66,7 @@ else
 fi
 
 
-export radio_delete='<window title="GoPlayer - Delete Station">
+export radio_delete='<window title="GoPlayer - Delete Station" icon_name="gtk-cdrom">
 <frame>
 <tree tooltip-text="Select radio station to delete">
  <label>Select radio station to delete</label>
@@ -82,7 +82,7 @@ export radio_delete='<window title="GoPlayer - Delete Station">
 </frame>
 </window>'
 
-export radio='<window title="GoPlayer - Add Station" >
+export radio='<window title="GoPlayer - Add Station" icon_name="gtk-cdrom">
  <vbox>
   <frame>
   <hbox> 
@@ -113,7 +113,7 @@ export radio='<window title="GoPlayer - Add Station" >
  </vbox></window>
 '
 
-export script='<window window_position="1" title="GoPlayer 0.3" >
+export script='<window window_position="1" title="GoPlayer 0.3" icon_name="gtk-cdrom">
 <vbox>
   <menubar>
     <menu>
