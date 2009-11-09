@@ -259,7 +259,7 @@ export youtube='<window window_position="3" title="GoPlayer - Download Youtube v
     </entry>
 	<button tooltip-text="Save it">
 	<input file stock="gtk-floppy"></input><label>Save it</label>
-	 <action>cd /tmp/youtube; youtube-dl -o $TITLE".flv" $URL && gtkdialog --program=finished</action>
+	 <action>cd $LOCAL_DIR_V; youtube-dl -o $TITLE".flv" $URL && gtkdialog --program=finished &</action>
 		<action>ls -1 $LOCAL_DIR_V | grep -i -E "(.avi|.flv|.mp4|.rmvb|.mkv)$" | sort -M -r  > $LIST_VIDEO</action>
 		<action>refresh:TREE_V</action>
 		<action>refresh:NOW</action>
