@@ -21,6 +21,12 @@ export LIST_VIDEO=${HOME}/goplayvideo.m3u
 export NOW_PLAYING=${HOME}/goplaynow.m3u
 echo "Stopped" > $NOW_PLAYING
 
+if [ -d "/tmp/youtube/now" ]; then
+	echo "Youtube temp dir exists"
+else
+	mkdir -p /tmp/youtube/now
+fi
+
 if [ -e "/usr/share/icons/goplay.png" ]; then
 	cp /usr/share/icons/goplay.png /tmp
 fi
@@ -185,28 +191,90 @@ export radio='<window window_position="3" title="GoPlayer - Add Station" icon_na
   </hbox> </frame>
  </vbox></window>
 '
+export finished='<window window_position="3" title="GoPlayer - Finished downloading" icon_name="gtk-cdrom" resizable="false">
+ <vbox>
+  <frame><pixmap tooltip-text="GoPlayer">
+    <input file>/tmp/goplay.png</input>
+  </pixmap>
+  <text>
+    <label>- Youtube download finished -</label>
+  </text>
+ </frame>
+  <hbox>
+   <button ok></button>
+  </hbox>
+ </vbox>
+</window>'
+
+export play_again='<window window_position="3" title="GoPlayer - Play again?" icon_name="gtk-cdrom" resizable="false">
+ <vbox>
+  <frame><pixmap tooltip-text="GoPlayer">
+    <input file>/tmp/goplay.png</input>
+  </pixmap>
+  <text>
+    <label>- Play Youtube video again? -</label>
+  </text>
+ </frame>
+  <hbox>
+   <button ok>
+   <action>cd /tmp/youtube/now; ffplay -x 640 -y 405 *.flv &</action>
+    <action type="exit">exit</action>
+   </button>
+     <button cancel></button>
+  </hbox>
+ </vbox>
+</window>'
+
 
 export youtube='<window window_position="3" title="GoPlayer - Download Youtube video" icon_name="gtk-cdrom">
  <vbox>
-  <frame>
+  <frame Download or watch Youtube>
+  <notebook labels="Play now|Save Video|Play last video">
   <hbox>
     <text>
       <label>Youtube URL:</label>
     </text>
     <entry width_chars="45">
-      <variable>URL</variable>
-    </entry>  
+      <variable>URL_NOW</variable>
+    </entry> 
+	<button tooltip-text="Just play it now">
+    <input file stock="gtk-media-play"></input><label>Just Play</label>
+	<action>cd /tmp/youtube/now; rm *.flv; youtube-dl $URL_NOW & sleep 2 && ffplay -x 640 -y 405 *.flv && gtkdialog --program=play_again &</action>
+	 <action type="exit">exit</action>
+   </button> 
 	</hbox>
-  <hbox>
-   <button ok>
-	 <action>youtube-dl -l $URL &</action>
+	  <hbox>
+   <text>
+      <label>Save as</label>
+    </text>
+	<entry activates_default="true" width_chars="15" tooltip-text="Video title you want">
+      <default>Youtube Video</default>
+      <variable>TITLE</variable>
+    </entry> 
+    <text>
+      <label>Youtube URL:</label>
+    </text>
+    <entry width_chars="20">
+      <variable>URL</variable>
+    </entry>
+	<button tooltip-text="Save it">
+	<input file stock="gtk-floppy"></input><label>Save it</label>
+	 <action>cd /tmp/youtube; youtube-dl -o $TITLE".flv" $URL && gtkdialog --program=finished</action>
 		<action>ls -1 $LOCAL_DIR_V | grep -i -E "(.avi|.flv|.mp4|.rmvb|.mkv)$" | sort -M -r  > $LIST_VIDEO</action>
 		<action>refresh:TREE_V</action>
 		<action>refresh:NOW</action>
    <action type="exit">exit</action>
    </button>
-   <button cancel></button>
-  </hbox> </frame>
+  </hbox><hbox> 
+  <text wrap="true" width-chars="50">
+    <label>- Play buffered Youtube video again? -</label>
+  </text>
+   <button ok>
+   <action>cd /tmp/youtube/now; ffplay -x 640 -y 405 *.flv &</action>
+    <action type="exit">exit</action>
+   </button>
+ </hbox>
+</notebook><hbox><button cancel></button></hbox></frame>
  </vbox></window>
 '
 
@@ -262,7 +330,7 @@ export script='<window window_position="1" title="GoPlayer 0.3" icon_name="gtk-c
 		<action>refresh:TREE_R</action>
 		<action>refresh:NOW</action>
 	</menuitem>
-		<menuitem icon="gtk-convert"><label>Download youtube video</label>
+		<menuitem icon="gtk-convert"><label>Youtube</label>
        	<action>gtkdialog --program=youtube &</action>
 	</menuitem>
       <label>Option</label>
@@ -313,7 +381,7 @@ export script='<window window_position="1" title="GoPlayer 0.3" icon_name="gtk-c
  <variable>TREE</variable>
  <height>200</height><width>450</width>
  <action signal="button-press-event">echo $TREE > $NOW_PLAYING; killall mpg321; killall ffplay</action>
-  <action>refresh:NOW</action>
+  <action signal="button-press-event">refresh:NOW</action>
  <action signal="button-release-event">mpg321 $(head $LOCAL)"/"$(head $NOW_PLAYING) & </action>
 </tree> 
 <tree tooltip-text="Select radio station">
@@ -322,7 +390,7 @@ export script='<window window_position="1" title="GoPlayer 0.3" icon_name="gtk-c
  <variable>TREE_R</variable>
  <height>200</height><width>450</width>
  <action signal="button-press-event">echo $TREE_R > $NOW_PLAYING; killall mpg321; killall ffplay</action>
-  <action>refresh:NOW</action>
+  <action signal="button-press-event">refresh:NOW</action>
  <action signal="button-release-event">IFS=$SIFS; get(){ echo $2; }; mpg321 $(get $TREE_R) & IFS=$OLD_IFS </action>
 </tree> 
 <tree tooltip-text="Select video to play">
@@ -331,7 +399,7 @@ export script='<window window_position="1" title="GoPlayer 0.3" icon_name="gtk-c
  <variable>TREE_V</variable>
  <height>200</height><width>450</width>
  <action signal="button-press-event">echo $TREE_V > $NOW_PLAYING; killall mpg321; killall ffplay</action>
-  <action>refresh:NOW</action>
+  <action signal="button-press-event">refresh:NOW</action>
   <action signal="button-release-event">ffplay -x 640 -y 405 $(head $LOCAL_V)"/"$(head $NOW_PLAYING) & </action>
 </tree></notebook></frame>
 <vbox><text><label>Vol.</label></text><button tooltip-text="Volume up">
