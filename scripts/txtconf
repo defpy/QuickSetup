@@ -1,0 +1,192 @@
+#!/bin/bash
+#
+# txtconf - simple config file manager: add, remove, insert and print fields (lines) 
+# by defpy (defpy@jabber.org)
+#
+# Options:
+#
+# Usage 1 - [action], [field], [file]
+#
+#  Action
+#    -a or -add     [add field]
+#    -p or -print   [print field]
+#    -d or -delete  [delete field]
+#
+#  Example 1
+#    txtconf -add USER=DOG my_data.conf
+#    txtconf -print USER= my_data.conf
+#    txtconf -delete USER= my_data.conf
+#
+# Usage 2 - [action], [field], [target], [file]
+#
+#  Action
+#    -r or -replace [replace field]
+#    -i or -insert  [insert field]
+#
+#  Example 2
+#    txtconf -replace USER=DOG PET=DOG my_data.conf
+#    txtconf -insert USER=DOG PET=DOG my_data.conf
+
+# Allow spaces in input arguments
+IFS=$'\t\n'
+
+#Logs and input 
+OPTION=0
+ACT=$1
+FIELD=$2
+THREE=$3
+FOUR=$4
+TEMPFILE=/tmp/dotcf.data
+LOG=/tmp/dotcf.log
+
+#Clean log
+echo "" > $LOG
+
+start()
+{
+echo "Start" >> $LOG
+#Add blank line at the top
+if [ -e "$THREE" ] || [ -e "$FOUR" ]; then
+	echo "Config file found" >> $LOG
+	if [ $OPTION = 1 ]; then
+		mv $THREE $TEMPFILE
+		echo "" > $THREE
+	elif [ $OPTION = 2 ]; then
+		mv $FOUR $TEMPFILE
+		echo "" > $FOUR
+	fi
+else
+	echo "Config file NOT found" >> $LOG
+	echo "Creating empty file..." >> $LOG
+	if [ $OPTION = 1 ]; then
+		echo "" > $TEMPFILE
+		echo "" > $THREE
+	elif [ $OPTION = 2 ]; then
+		echo "" > $TEMPFILE
+		echo "" > $FOUR
+	fi
+fi
+
+}
+
+add_field()
+{
+	echo "" >> $TEMPFILE
+	if [ "$(grep $FIELD $TEMPFILE)" != "" ]; then
+			echo "not ok: field already exists" >> $LOG
+	else
+		echo $FIELD >> $TEMPFILE
+		echo "ok: field added" >> $LOG
+	fi
+	mv $TEMPFILE $THREE 
+}
+
+delete_field()
+{
+	while read LINE; do
+		if [ "$(echo $LINE | grep "$FIELD")" != "" ]; then
+			echo "delete: found matching field" >> $LOG
+		else
+			echo $LINE >> $THREE
+		fi
+	done < $TEMPFILE
+}
+
+print_field()
+{
+	 grep -i $FIELD $TEMPFILE
+	 mv $TEMPFILE $THREE 
+}
+
+replace_field()
+{
+	while read LINE; do
+		if [ "$(echo $LINE | grep "$FIELD")" != "" ]; then
+			echo "replace: found matching field" >> $LOG
+			echo $THREE >> $FOUR
+		else
+			echo $LINE >> $FOUR
+		fi
+	done < $TEMPFILE
+}
+
+insert_field()
+{
+	while read LINE; do
+		if [ "$(echo $LINE | grep "$FIELD")" != "" ]; then
+			echo "insert: found matching field" >> $LOG
+			echo $LINE >> $FOUR
+			echo $THREE >> $FOUR
+		else
+			echo $LINE >> $FOUR
+		fi
+	done < $TEMPFILE
+}
+
+if [ $# = 3 ] && [ "$ACT" = "-a" ] || [ "$ACT" = "-add" ]; then
+	echo "add" >> $LOG
+	OPTION=1
+	start
+	add_field
+elif [ $# = 3 ] && [ "$ACT" = "-p" ] || [ "$ACT" = "-print" ]; then
+	echo "print" >> $LOG
+	OPTION=1
+	start
+	print_field
+elif [ $# = 3 ] && [ "$ACT" = "-d" ] || [ "$ACT" = "-delete" ]; then
+	echo "delete" >> $LOG
+	OPTION=1
+	start
+	delete_field
+elif [ $# = 4 ] && [ "$ACT" = "-r" ] || [ "$ACT" = "-replace" ]; then
+	echo "replace" >> $LOG
+	OPTION=2
+	start
+	replace_field
+elif [ $# = 4 ] && [ "$ACT" = "-i" ] || [ "$ACT" = "-insert" ]; then
+	echo "insert" >> $LOG
+	OPTION=2
+	start
+	insert_field
+else
+	echo "txtconf - options:"
+	echo
+	echo "Usage 1 - [action], [field], [file]"
+	echo
+	echo "  Action"
+	echo "    -a or -add     [add field]"
+	echo "    -p or -print   [print field]"
+	echo "    -d or -delete  [delete field]"
+	echo
+	echo "  Example 1"
+	echo "    txtconf -add USER=DOG my_data.conf"
+	echo "    txtconf -print USER= my_data.conf"
+	echo "    txtconf -delete USER= my_data.conf"
+	echo
+	echo "Usage 2 - [action], [field], [target], [file]"
+	echo
+	echo "  Action"
+	echo "    -r or -replace [replace field]"
+	echo "    -i or -insert  [insert field]"
+	echo
+	echo "  Example 2"
+	echo "    txtconf -replace USER=DOG PET=DOG my_data.conf"
+	echo "    txtconf -insert USER=DOG PET=DOG my_data.conf"
+	echo
+	exit 0;
+	
+fi
+
+#Finish
+#remove blank lines
+if [ $OPTION = 1 ]; then
+	mv $THREE $TEMPFILE
+	grep -v '^$'  $TEMPFILE > $THREE
+elif [ $OPTION = 2 ]; then
+	mv $FOUR $TEMPFILE
+	grep -v '^$' $TEMPFILE > $FOUR
+fi
+
+#Clean temp file
+rm $TEMPFILE
+exit 0;
