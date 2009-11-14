@@ -229,7 +229,7 @@ export play_again='<window window_position="3" title="GoPlayer - Play again?" ic
 export youtube='<window window_position="3" title="GoPlayer - Download Youtube video" icon_name="gtk-cdrom">
  <vbox>
   <frame Download or watch Youtube>
-  <notebook labels="Play now|Save Video|Play last video">
+  <notebook labels="Play now|Save Video|Play last video" tab-pos="3" enable-popup="true">
   <hbox>
     <text>
       <label>Youtube URL:</label>
@@ -374,7 +374,7 @@ export script='<window window_position="1" title="GoPlayer 0.3" icon_name="gtk-c
 	<action> mpg321 --shuffle --list $LIST_F &</action>
   </button></hbox>
   </vbox> 
-  <frame><notebook labels="Local|Radio|Video">
+ <frame><notebook labels="Local|Radio|Video" tab-pos="2" enable-popup="true">
 <tree rules_hint="true" hover-selection="true" tooltip-text="Select mp3 to play">
  <label>Playlist</label>
  <input>cat $LIST </input>
@@ -424,6 +424,7 @@ export script='<window window_position="1" title="GoPlayer 0.3" icon_name="gtk-c
   </button>
  </hbox>
  </vbox>
+ <action signal="hide">exit:Exit</action> 
 </window>'
 
 gtkdialog --program=script
