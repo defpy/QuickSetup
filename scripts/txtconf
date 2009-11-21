@@ -36,7 +36,7 @@ ACT=$1
 FIELD=$2
 THREE=$3
 FOUR=$4
-TEMPFILE=/tmp/dotcf.data
+TEMPFILE="/tmp/dotcf.data"$$
 LOG=/tmp/dotcf.log
 
 #Clean log
@@ -73,7 +73,7 @@ add_field()
 {
 	echo "" >> $TEMPFILE
 	if [ "$(grep $FIELD $TEMPFILE)" != "" ]; then
-			echo "not ok: field already exists" >> $LOG
+		echo "not ok: field already exists" >> $LOG
 	else
 		echo $FIELD >> $TEMPFILE
 		echo "ok: field added" >> $LOG
