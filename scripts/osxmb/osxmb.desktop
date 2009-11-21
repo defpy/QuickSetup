@@ -1,0 +1,12 @@
+
+[Desktop Entry]
+Name=Exit Ubuntu
+Comment=Configure which services will be run when the system starts
+Exec=exit-ubuntu
+Icon=xmb.png
+Terminal=false
+Type=Application
+Categories=GNOME;GTK;System;Settings;
+StartupNotify=true
+Encoding=UTF-8
+GenericName=Exit Ubuntu
