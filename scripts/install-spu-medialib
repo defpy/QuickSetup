@@ -1,0 +1,70 @@
+#!/bin/bash
+
+# This script installs spu-medialib - a multimedia framework for ps3 linux, created by Unsolo. 
+# The main purpose of this library is to offload colour conversation and video scalling to SPU cores, found in Cell BE processor.
+
+HOME=$(head scripts/.home_path)
+DOWNLOAD=${HOME}/QuickSetup/scripts/downloads
+
+install_spu_medialib()
+{
+# Downloading a .deb archive.
+echo "Checking for download directory..."
+cd ${HOME}/QuickSetup/scripts
+if [ -d downloads ]; then
+   echo "Ok"
+else
+   echo "No. Creating directory ..."
+   mkdir -p downloads
+fi
+
+cd $DOWNLOAD
+echo "Downloading"
+wget http://linux.yes.nu/PS3Ubuntu/files/spu-medialib_0.1git20071126-1_powerpc.deb && echo "Ok" || echo "Failed to download"
+
+# Checking for libspe2-2 package.
+echo "Checking for libspe2-2..."
+if [ -e /usr/lib/libspe2.so.2 ]; then
+   echo "Libspe2 is installed."
+else
+   echo "Libspe2 is not installed. Installing now ..."
+   apt-get install -y libspe2-2 && echo "Ok" || echo "Failed"
+fi   
+
+# Installing spu-medialib. Must be done as root of course.
+cd $DOWNLOAD
+echo "Extracting..."
+ar x spu-medialib_0.1git20071126-1_powerpc.deb
+tar -xzf data.tar.gz
+echo "Installing..."
+cd usr && cd local && cd bin
+cp * /usr/local/bin
+cd $DOWNLOAD && cd usr && cd lib
+cp libspu-medialib.so.0.100.0 libspu-medialib.la libspu-medialib.a /usr/lib
+ln -s /usr/lib/libspu-medialib.so.0.100.0 /usr/lib/libspu-medialib.so.0
+ln -s /usr/lib/libspu-medialib.so.0 /usr/lib/libspu-medialib.so
+cd pkgconfig
+cp libspu-medialib.pc /usr/lib/pkgconfig
+cd $DOWNLOAD && cd usr && cd include
+cp -r spu-medialib /usr/include
+echo "Done"
+
+# Checking if it is actually installed now.
+echo "Verifying installation..."
+if [ -e /usr/lib/libspu-medialib.so.0 ]; then
+   echo "Spu-medialib has been installed successfully."
+else
+   echo "Something went wrong."
+   echo "You are not running this script as root probably."
+fi
+}
+
+# Checking if it is installed already...
+echo "Checking for spu-medialib..."
+if [ -e /usr/lib/libspu-medialib.so.0 ]; then
+   echo "Spu-medialib is installed already."
+else
+   echo "No."
+   echo "Installing it now..."
+   install_spu_medialib
+fi   

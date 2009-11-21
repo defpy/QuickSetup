@@ -1,0 +1,89 @@
+#!/bin/bash
+
+# This script installs mplayer-ps3 and PSPlayer.
+# Mplayer-ps3 is mplayer binary that is patched for ps3 -vo driver, wchich uses spu-medialib for video acceleration.
+# PSPlayer is a script created for user-friendly use of mplayer-ps3.
+# NOTE: The use of this script makes sense only if you are running linux on PS3 ( Fat models ) or any Cell BE machine that doesn't have direct access to GPU,
+# Thanks to Stream for the binary.
+
+HOME=$(head scripts/.home_path)
+DOWNLOAD=${HOME}/QuickSetup/scripts/downloads
+PSPLAYER=${HOME}/QuickSetup/scripts/PSPlayer
+
+install_psplayer()
+{
+# Dependency check.
+# Checking for spu-medialib package
+	echo "Checking for spu-medialib..."
+	if [ -e /usr/lib/libspu-medialib.so.0 ]; then
+		echo "Ok"
+	else
+		echo "Spu-medialib is not installed."
+		echo "Installing it now..."
+		cd ${HOME}/QuickSetup/scripts
+		./install-spu-medialib
+		echo "Done"
+	fi
+   
+# Checking for xterm package.
+	echo "Checking for xterm..."
+    if [ -e /usr/bin/xterm ]; then
+		echo "Yes"
+    else
+		echo "No"
+		echo "Installing now..."
+		apt-get install -y xterm && echo "Ok" || echo "Failed"
+    fi
+ 
+# Checking for libbz2 package.
+	echo "Checking for libbz2..."
+    if [ -e /usr/lib/libbz2.so.1 ]; then
+		echo "Yes"
+    else
+		echo "No"
+		echo "Installing now..."
+		apt-get install -y libbz2-1.0 && echo "Ok" || echo "Failed"
+    fi
+ 
+# Checking for download directory 
+	echo "Checking for download directory..."
+	cd ${HOME}/QuickSetup/scripts
+	if [ -d downloads ]; then
+		echo "Ok"
+	else
+		echo "No. Creating directory ..."
+		mkdir -p downloads
+	fi
+
+# Downloading mplayer-ps3
+cd $DOWNLOAD
+echo "Downloading. Please wait..."
+wget http://proxima.isp.tula.ru:20080/mplayer-ps3/mplayer-ps3-29546-090904.zip && echo "Ok" || echo "Failed to download"
+
+# Installing
+echo "Installing mplayer-ps3"
+cd $DOWNLOAD
+unzip mplayer-ps3-29546-090904.zip
+cp mplayer-ps3 /usr/local/bin
+cd /usr/local/bin
+chmod a+x mplayer-ps3
+echo "Done"
+
+echo "Installing PSPlayer"
+cp $PSPLAYER /usr/bin
+cd /usr/bin
+chmod a+x PSPlayer
+echo "Done"
+
+echo "Installation is finished"
+}
+
+# Checking if we have it already
+echo "Checking for PSPlayer..."
+if [ -e /usr/bin/PSPlayer ]; then
+	echo "PSPlayer is already installed"
+else
+	echo "No"   
+	echo "Installing it now..."
+	install_psplayer
+fi

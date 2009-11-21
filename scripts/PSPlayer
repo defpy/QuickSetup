@@ -1,0 +1,15 @@
+#!/bin/bash
+# A small script for using with mplayer-ps3. Gives stability to the player.
+
+IFS=$'\t\n'
+if [ "$1" == "" ]; then
+	FILE=`zenity --file-selection --title "Select a file to play"`
+else
+	FILE="$1"
+fi
+
+case $? in
+	0) xterm -bg black -fg black -cr black -bd black -hc black -ms black -sb -geometry 300x200 -e /usr/bin/mplayer -fs $FILE;;
+	1) zenity --warning --text "PSPlayer\n\nSelection cancelled";;
+	-1) zenity --warning --text "PSPlayer\n\nSelection cancelled";;
+esac
