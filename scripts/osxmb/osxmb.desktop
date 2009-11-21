@@ -1,7 +1,7 @@
 
 [Desktop Entry]
 Name=Exit Ubuntu
-Comment=Configure which services will be run when the system starts
+Comment=Exit and set boot flags
 Exec=exit-ubuntu
 Icon=xmb.png
 Terminal=false
