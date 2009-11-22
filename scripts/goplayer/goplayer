@@ -10,7 +10,7 @@ export LOCAL=${HOME}/.goplayer-home
 export LOCAL_V=${HOME}/.goplayer-home-video
 export LOCAL_DIR="$(head $LOCAL)"
 export LOCAL_DIR_V="$(head $LOCAL_V)"
-cd $LOCAL_DIR
+cd $HOME
 echo $LOCAL
 echo $LOCAL_DIR
 
@@ -125,7 +125,6 @@ export dir='<window window_position="3" title="GoPlayer - Select default media d
       <button>
         <input file stock="gtk-open"></input>
         <variable>VIDEO_DIR</variable>
-		<action>cd ${HOME}</action>
         <action type="fileselect">VIDEO_DIRECTORY</action>
       </button>
 	  <button ok>
@@ -137,7 +136,7 @@ export dir='<window window_position="3" title="GoPlayer - Select default media d
     <hbox>
    <button ok>
     <action>echo "$MUSIC_DIRECTORY" > $LOCAL; ls -1 $(head $LOCAL) | grep -i ".mp3" > $LIST; find $(head $LOCAL) -type f -name "*.mp3" | sort -n > $LIST_F</action>
-	<action>echo "$VIDEO_DIRECTORY" > $LOCAL_V ; ls -1 $(head $LOCAL_V) | grep -i -E "(.avi|.flv|.mp4|.rmvb|.mkv)$" > $LIST_VIDEO </action>
+	<action>echo "$VIDEO_DIRECTORY" > $LOCAL_V ; ls -1 --sort=time $(head $LOCAL_V) | grep -i -E "(.avi|.flv|.mp4|.rmvb|.mkv)$" > $LIST_VIDEO </action>
 	<action type="exit">exit</action>
    </button>
    <button cancel></button>
@@ -276,26 +275,19 @@ export youtube='<window window_position="3" title="GoPlayer - Download Youtube v
  </hbox>
 </notebook><hbox><button cancel></button></hbox></frame>
  </vbox></window>
-'
-
+'	
 export script='<window window_position="1" title="GoPlayer 0.3" icon_name="gtk-cdrom">
 <vbox>
   <menubar>
     <menu>
-      <menuitem icon="gtk-open"><label>Open mp3 file</label>
-	  <action>cd ${HOME}; FILE=$(zenity --file-selection --file-filter=*.mp3 --window-icon=/usr/share/icons/Tango/32x32/status/sunny.png --title "Select a mp3 file"); echo "LOAD $FILE"; echo "$FILE" > $NOW_PLAYING; echo "$FILE" > $LIST</action>
-	<action>refresh:TREE</action>
-	<action>refresh:NOW</action>
-	</menuitem>
-       <menuitem icon="gtk-open"><label>Open video file</label>
-	<action>cd ${HOME}; FILE=$(zenity --file-selection --file-filter=*.* --file-filter=*.avi --file-filter=*.mp4 --file-filter=*.rmvb --file-filter=*.flv --file-filter=*.mkv  --window-icon=/usr/share/icons/Tango/32x32/status/sunny.png --title "Select a video file");  ffplay -x 640 -y 405 "$FILE" & echo "$FILE" > $NOW_PLAYING; echo "$FILE" > $LIST_VIDEO</action>
-	<action>killall mpg321 </action>
-	<action>refresh:TREE_V</action>
+       <menuitem icon="gtk-open"><label>Open file</label>
+	<action>cd ${HOME}; FILE=$(zenity --file-selection --file-filter=*.* --file-filter=*.avi --file-filter=*.mp4 --file-filter=*.mp3 --file-filter=*.rmvb --file-filter=*.flv --file-filter=*.mkv --title "Select a file");  ffplay -x 640 -y 405 "$FILE" & echo "$FILE" > $NOW_PLAYING</action>
+	<action>killall mpg321</action>
 	<action>refresh:NOW</action>
 	</menuitem>
       <separator></separator>
       <menuitem stock="gtk-quit">
-	  <action>killall mpg321 </action>
+	  <action>killall mpg321</action>
  <action type="exit">exit</action>
       </menuitem>
       <label>File</label>
@@ -349,21 +341,22 @@ export script='<window window_position="1" title="GoPlayer 0.3" icon_name="gtk-c
   </pixmap>
   <hbox>
   <button tooltip-text="Start">
+   <variable>START</variable>
     <input file stock="gtk-media-play"></input>
     <action> killall mpg321</action>
-	<action> killall ffplay </action>
-	 <action> mpg321 $(head -1 $LIST) &</action>
+	<action> killall ffplay</action>
 	 <action>echo "$(head $LIST)" > $NOW_PLAYING</action>
 	<action>refresh:NOW</action>
+	<action>refresh:PLAY</action>
   </button>
   <button tooltip-text="Stop">
     <input file icon="gtk-media-stop"></input>
     <action> killall mpg321</action>
-	<action>killall ffplay </action>
+	<action>killall ffplay</action>
   </button></hbox>
   <hbox><button tooltip-text="Playlist">
     <input file icon="gtk-edit"></input>
-    <action> killall mpg321; echo "Playing playlist" > $NOW_PLAYING;  killall ffplay </action>
+    <action> killall mpg321; echo "Playing playlist" > $NOW_PLAYING;  killall ffplay</action>
 	 <action>refresh:NOW</action>
 	 <action> mpg321 --list $LIST_F &</action>
   </button>
@@ -413,7 +406,12 @@ export script='<window window_position="1" title="GoPlayer 0.3" icon_name="gtk-c
 </hbox>
 <hbox>
 <entry has_frame="false" editable="false" tooltip-text="Status"><variable>NOW</variable><input>echo $(head -1 $NOW_PLAYING)</input></entry>
-
+  <checkbox visible="false">
+  <variable>PLAY</variable>
+  <default>true</default>
+  <input>if [ "$PLAY" = "false" ]; then echo "true"; else echo "false"; fi</input>
+  <action>if true mpg321 $(head -1 $LIST) &</action>
+ </checkbox>
  <button tooltip-text="Refresh">
     <input file icon="gtk-refresh"></input><label>Refresh playlist</label>
     <action>ls -1 $(head $LOCAL) | grep -i ".mp3" > $LIST</action>
