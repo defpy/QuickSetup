@@ -14,7 +14,7 @@ GtkWidget*	Window_Tweaks;
 GtkWidget*	Window_VideoMode;
 GtkWidget*  Window_Borders;
 
-gint WinX, WinY;
+gint WinX, WinY, WinXOld, WinYOld;
 
 int main (int argc, char *argv[])
 {
@@ -29,10 +29,8 @@ int main (int argc, char *argv[])
 	}
 	
 	SetupMenus();
-
-	gtk_main ();
-
-	system("scripts/cleanup");
+	MoveWindows();
+	gtk_main();
 
 	return 0;
 }
@@ -49,18 +47,23 @@ void SetupMenus()
 	Window_VideoMode   = GTK_WIDGET(gtk_builder_get_object (builder, "VideoMode"));
 	Window_Borders     = GTK_WIDGET(gtk_builder_get_object (builder, "Border"));
 
-	gtk_widget_show(Window_QuickSetup);
+	
 
 	gtk_window_get_position(GTK_WINDOW(Window_QuickSetup), &WinX, &WinY);
-	WinY += 50;
+	WinY += 100;
 	gtk_window_move(GTK_WINDOW(Window_QuickSetup) , WinX , WinY);
+	gtk_widget_show(Window_QuickSetup);
+}
 
+void MoveWindows()
+{
+	gtk_window_get_position(GTK_WINDOW(Window_QuickSetup), &WinX, &WinY);
 	gtk_window_move(GTK_WINDOW(Window_Multimedia) , WinX+80 , WinY-320);
 	gtk_window_move(GTK_WINDOW(Window_Installers) , WinX+160, WinY-240);
 	gtk_window_move(GTK_WINDOW(Window_Performance), WinX+240, WinY-240);
-	gtk_window_move(GTK_WINDOW(Window_Tweaks)     , WinX+320, WinY-240);
-	gtk_window_move(GTK_WINDOW(Window_VideoMode) , WinX-80 , WinY-160);
-	gtk_window_move(GTK_WINDOW(Window_Borders) , WinX+80 , WinY-240);
+	gtk_window_move(GTK_WINDOW(Window_Tweaks)     , WinX+320, WinY-320);
+	gtk_window_move(GTK_WINDOW(Window_VideoMode) , WinX+80 , WinY-240);
+	gtk_window_move(GTK_WINDOW(Window_Borders) , WinX+80 , WinY-320);
 }
 
 void ResetBar()

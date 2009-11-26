@@ -2,23 +2,22 @@
 
 FBSET_FILE=/etc/init.d/fbset.sh
 FBSET_OLD=/etc/init.d/fbset.sh.old
+KBOOT_FILE=/etc/kboot.conf
 
 FbsetX="$1"
 FbsetY="$2"
 
 GetNum()
 {
-	echo $6
-	echo $8
+	echo $2
 }
 
 ReadFbset ()
 {
-	if [ -f $FBSET_FILE ]; then
-		FBSET_CONTENTS=`cat /etc/init.d/fbset.sh`
-		GetNum $FBSET_CONTENTS
-	fi
+	FBSET=$(fbset)
+	GetNum $FBSET
 }
+
 WriteFbset ()
 {
 	if [ -f $FBSET_FILE ]; then
@@ -40,7 +39,8 @@ WriteFbset ()
 	chmod 755 /etc/init.d/fbset.sh
 
 	echo "20"
-	echo "-Creating symbolic link-"
+	echo "-Creating symbolic links-"
+	sudo ln -s /etc/init.d/fbset.sh /etc/rc1.d/S26fbset
 	sudo ln -s /etc/init.d/fbset.sh /etc/rc2.d/S26fbset
 
 	echo "40"
@@ -50,6 +50,8 @@ WriteFbset ()
 
 if [ $1 = "read" ]; then
 	ReadFbset
+elif [ $1 = "test" ]; then
+	TestFbset
 else
 	WriteFbset
 fi

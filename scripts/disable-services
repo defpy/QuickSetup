@@ -3,9 +3,9 @@
 # Disable ubuntu services located in /etc/init.d
 
 # List of services to be disabled (must be separated by spaces)
-SERVICES="bluetooth cups cron anacron laptop-mode"
+SERVICES="alsa anacron apmd atd cupsys dns-clean evms fetchmail gdomap hotkey-setup hotplug hotplug-net hplib ifrename inetd inetd.real ivm mdamd mdamd-raid portmap ppp ppp-dns rmnologin rsync"
 # Change percentage according to the number of services
-PERCENT=20
+PERCENT=4
 
 disable_services()
 {
@@ -14,6 +14,7 @@ disable_services()
 		echo $PERCENT
 	done
 	echo "-Done disabling services-"
+	echo "100"
 	echo "Success"
 }
 disable_services

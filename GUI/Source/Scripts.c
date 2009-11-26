@@ -51,14 +51,12 @@ int UpdateFromStream()
 void RunScript(char Path[50])
 {
 	OpenStream(Path);
-
 	system("clear");
 
 	while(i == 1) i = UpdateFromStream();
-	
 	while (g_main_context_iteration(NULL, FALSE));
 
 	Percent = 0;
 	TempP	= 0;
-	i		= 1;
+	i	= 1;
 }
