@@ -62,8 +62,8 @@ G_MODULE_EXPORT void Tweaks_released()
 
 G_MODULE_EXPORT void Exit_released()
 {
-	gtk_main_quit();
 	system("scripts/cleanup");
+	gtk_main_quit();
 }
 
 G_MODULE_EXPORT void Goplayer_released()
@@ -131,7 +131,7 @@ G_MODULE_EXPORT void XMB_released()
 {
 	ResetBar();
 	MoveWindows();
-	RunScript("scripts/xmbos-install");
+	RunScript("scripts/osxmb-install");
 }
 G_MODULE_EXPORT void Wacom_released()
 {
