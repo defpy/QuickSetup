@@ -2,20 +2,104 @@
 
 FBSET_FILE=/etc/init.d/fbset.sh
 FBSET_OLD=/etc/init.d/fbset.sh.old
-KBOOT_FILE=/etc/kboot.conf
 
 FbsetX="$1"
 FbsetY="$2"
 
-GetNum()
+IsInteger() 
 {
-	echo $2
+    [ "$1" -eq "$1" ] > /dev/null 2>&1
+    return $?
+}
+
+DoTheMath()
+{
+	if [ "$element" = "129" ]; then
+		TempX=640-$ReturnX
+		TempX=$TempX/2
+		ReturnX=$TempX+$ReturnX
+		TempY=480-$ReturnY
+		TempY=$TempY/2
+		ReturnY=$TempY+$ReturnY	
+	fi
+	if [ "$element" = "135" ]; then
+		TempX=704-$ReturnX
+		TempX=$TempX/2
+		ReturnX=$TempX+$ReturnX
+		TempY=576-$ReturnY
+		TempY=$TempY/2
+		ReturnY=$TempY+$ReturnY	
+	fi
+	if [ "$element" = "131" ]; then
+		TempX=1280-$ReturnX
+		TempX=$TempX/2
+		ReturnX=$TempX+$ReturnX
+		TempY=720-$ReturnY
+		TempY=$TempY/2
+		ReturnY=$TempY+$ReturnY	
+	fi
+	if [ "$element" = "132" ]; then
+		TempX=1920-$ReturnX
+		TempX=$TempX/2
+		ReturnX=$TempX+$ReturnX
+		TempY=1080-$ReturnY
+		TempY=$TempY/2
+		ReturnY=$TempY+$ReturnY	
+	fi
+	if [ "$element" = "133" ]; then
+		TempX=1920-$ReturnX
+		TempX=$TempX/2
+		ReturnX=$TempX+$ReturnX
+		TempY=1920-$ReturnY
+		TempY=$TempY/2
+		ReturnY=$TempY+$ReturnY
+	fi
+}
+
+ReturnValue()
+{
+	echo $ReturnX
+	echo $ReturnY
 }
 
 ReadFbset ()
 {
 	FBSET=$(fbset)
-	GetNum $FBSET
+
+	# Get X value
+	for element in $string; do
+    	if $(is_integer $element) ; then
+      		if [ $element -gt 400 ];then
+         		ReturnX=$element
+         		echo $ReturnX
+			fi
+    	fi
+	done
+	# Get Y value
+	for element in $string; do
+    	if $(is_integer $element) ; then
+      		if [ $element -gt 300 ];then
+         		if [ ! $ReturnX -eq $element ]; then
+					ReturnY=$element
+         			echo $ReturnY
+				fi
+			fi
+    	fi
+	done
+
+	# Get the video mode
+	string=$(grep "/boot/vmlinux " /etc/kboot.conf | sed "s/:/ /g")
+	for element in $string; do
+		if $(is_integer $element) ; then
+			if [ $element -gt 100 ];then
+				Mode=$element
+				DoTheMath
+				ReturnValue
+	      	else
+	            ReturnValue
+			fi
+	    fi
+	done
 }
 
 WriteFbset ()

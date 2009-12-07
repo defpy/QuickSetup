@@ -8,32 +8,38 @@
 
 KBOOT_FILE=/etc/kboot.conf
 
-#kboot default values
-KBOOT_MODE=""
-KBOOT_L="Ubuntu"
-KBOOT_TIMEOUT="timeout=10"
-KBOOT_ROOT="root=/dev/sda1"
-KBOOT_DEFAULT_LABEL="default=Ubuntu"
-
 #get ps3videomode value for desired resolution - example: kboot-ed 720p
 value="$1"
-if [ "$value" = "480i" ]; then
+#Fullscreen
+if [ "$value" = "f480i" ]; then
 	VIDEO_RES="129"
-elif [ "$value" = "480p" ]; then
-	VIDEO_RES="130"
-elif [ "$value" = "576i" ]; then
-	VIDEO_RES="134"
-elif [ "$value" = "576p" ]; then
+	value="480i Fullscreen"
+elif [ "$value" = "f576p" ]; then
 	VIDEO_RES="135"
-elif [ "$value" = "720p" ]; then
+	value="576p Fullscreen"
+elif [ "$value" = "f720p" ]; then
 	VIDEO_RES="131"
-elif [ "$value" = "1080i" ]; then
+	value="720p Fullscreen"
+elif [ "$value" = "f1080i" ]; then
 	VIDEO_RES="132"
-elif [ "$value" = "1080p" ]; then
+	value="1080i Fullscreen"
+elif [ "$value" = "f1080p" ]; then
 	VIDEO_RES="133"
+	value="1080p Fullscreen"
+#Regular
+elif [ "$value" = "480i" ]; then
+	VIDEO_RES="1"
+elif [ "$value" = "576p" ]; then
+	VIDEO_RES="7"
+elif [ "$value" = "720p" ]; then
+	VIDEO_RES="3"
+elif [ "$value" = "1080i" ]; then
+	VIDEO_RES="4"
+elif [ "$value" = "1080p" ]; then
+	VIDEO_RES="5"
 else
 	echo "-Unsupported video mode-"
-	VIDEO_RES="131" 
+	VIDEO_RES="131"
 fi
 
 kboot_edit()
@@ -69,6 +75,13 @@ kboot_edit()
 		done 	
 	done <$KBOOT_FILE
 
+	#sets a default root
+	if [ "$KBOOT_ROOT" = "" ]; then
+		KBOOT_ROOT="root=/dev/ps3da1"
+	fi
+	if [ "$KBOOT_MODE" = "" ]; then
+		KBOOT_MODE=""
+	fi
 	echo "30"
 	echo "-Defining labels-"
 	# define labels
@@ -77,8 +90,8 @@ kboot_edit()
 	
 	#backup kboot.conf file
 	echo "10"
-	echo "-Creating backup in /etc/kboot.conf.old-"
-	mv $KBOOT_FILE /etc/kboot.conf.old 
+	echo "-Creating backup in /tmp/kboot.conf.old-"
+	mv $KBOOT_FILE /tmp/kboot.conf.old 
 	#creates a kboot.conf and then copies selected options
 	echo "message=/etc/kboot.msg" >> $KBOOT_FILE
 	echo "$KBOOT_DEFAULT_LABEL" >> $KBOOT_FILE
