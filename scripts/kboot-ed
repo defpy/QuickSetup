@@ -1,15 +1,14 @@
 #!/bin/bash
 # kboot-ed
 # Usage - kboot-ed resolution_you_want 
-# Available res 480i 480p 576i 576p 720p 1080i 1080p 
+# Available res 480i 480p 576i 576p 720p 1080i 1080p, for fullscreen use f480i for example
 #
 # kboot.conf location
-# QuickSetup Log file
-
 KBOOT_FILE=/etc/kboot.conf
 
 #get ps3videomode value for desired resolution - example: kboot-ed 720p
 value="$1"
+
 #Fullscreen
 if [ "$value" = "f480i" ]; then
 	VIDEO_RES="129"

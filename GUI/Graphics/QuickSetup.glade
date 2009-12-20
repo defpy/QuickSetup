@@ -680,20 +680,8 @@
       </row>
     </data>
   </object>
-  <object class="GtkWindow" id="Install_Games">
-    <property name="resizable">False</property>
-    <property name="skip_taskbar_hint">True</property>
-    <property name="decorated">False</property>
-    <property name="deletable">False</property>
-    <child>
-      <object class="GtkComboBox" id="combobox1">
-        <property name="visible">True</property>
-        <property name="model">GameList</property>
-        <child>
-          <object class="GtkCellRendererToggle" id="Toggle"/>
-        </child>
-      </object>
-    </child>
-  </object>
   <object class="GtkListStore" id="GameList"/>
+  <object class="GtkMenu" id="GameMenu">
+    <property name="visible">True</property>
+  </object>
 </interface>

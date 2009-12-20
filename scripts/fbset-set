@@ -12,9 +12,10 @@ IsInteger()
     return $?
 }
 
+#Estimate resolution, not implemented yet
 DoTheMath()
 {
-	if [ "$element" = "129" ]; then
+	if [ "$mode" = "1" ]; then
 		TempX=640-$ReturnX
 		TempX=$TempX/2
 		ReturnX=$TempX+$ReturnX
@@ -22,7 +23,7 @@ DoTheMath()
 		TempY=$TempY/2
 		ReturnY=$TempY+$ReturnY	
 	fi
-	if [ "$element" = "135" ]; then
+	if [ "$mode" = "7" ]; then
 		TempX=704-$ReturnX
 		TempX=$TempX/2
 		ReturnX=$TempX+$ReturnX
@@ -30,7 +31,7 @@ DoTheMath()
 		TempY=$TempY/2
 		ReturnY=$TempY+$ReturnY	
 	fi
-	if [ "$element" = "131" ]; then
+	if [ "$mode" = "3" ]; then
 		TempX=1280-$ReturnX
 		TempX=$TempX/2
 		ReturnX=$TempX+$ReturnX
@@ -38,7 +39,7 @@ DoTheMath()
 		TempY=$TempY/2
 		ReturnY=$TempY+$ReturnY	
 	fi
-	if [ "$element" = "132" ]; then
+	if [ "$mode" = "4" ]; then
 		TempX=1920-$ReturnX
 		TempX=$TempX/2
 		ReturnX=$TempX+$ReturnX
@@ -46,7 +47,7 @@ DoTheMath()
 		TempY=$TempY/2
 		ReturnY=$TempY+$ReturnY	
 	fi
-	if [ "$element" = "133" ]; then
+	if [ "$mode" = "5" ]; then
 		TempX=1920-$ReturnX
 		TempX=$TempX/2
 		ReturnX=$TempX+$ReturnX
@@ -58,48 +59,36 @@ DoTheMath()
 
 ReturnValue()
 {
-	echo $ReturnX
 	echo $ReturnY
+	echo $ReturnX
 }
 
-ReadFbset ()
+ReadFbset()
 {
-	FBSET=$(fbset)
+	string=$(fbset)
 
 	# Get X value
 	for element in $string; do
-    	if $(is_integer $element) ; then
+    	if $(IsInteger $element) ; then
       		if [ $element -gt 400 ];then
          		ReturnX=$element
-         		echo $ReturnX
+				break
 			fi
     	fi
 	done
 	# Get Y value
 	for element in $string; do
-    	if $(is_integer $element) ; then
+    	if $(IsInteger $element) ; then
       		if [ $element -gt 300 ];then
-         		if [ ! $ReturnX -eq $element ]; then
+         		if [ $ReturnX -ne $element ]; then	
 					ReturnY=$element
-         			echo $ReturnY
+					break
 				fi
 			fi
     	fi
 	done
 
-	# Get the video mode
-	string=$(grep "/boot/vmlinux " /etc/kboot.conf | sed "s/:/ /g")
-	for element in $string; do
-		if $(is_integer $element) ; then
-			if [ $element -gt 100 ];then
-				Mode=$element
-				DoTheMath
-				ReturnValue
-	      	else
-	            ReturnValue
-			fi
-	    fi
-	done
+	ReturnValue
 }
 
 WriteFbset ()

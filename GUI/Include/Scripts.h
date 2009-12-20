@@ -5,6 +5,10 @@
 
 void Fix_Asound();
 void Fix_Services();
-void RunScript();
+void RunScript()
+
+void FbsetGet();
+void KbootRun();
+void CreateMenu(char ListPath[20]);
 
 #endif

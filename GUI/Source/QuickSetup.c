@@ -32,6 +32,7 @@ int main (int argc, char *argv[])
 	MoveWindows();
 	gtk_main();
 
+	system("scripts/cleanup");
 	return 0;
 }
 

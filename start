@@ -5,6 +5,8 @@ NEXT=0
 
 if [ "$1" == "--compile" ]; then
    cd GUI
+   rm QuickSetup
+   echo "Compiling QuickSetup"
    make
    if [ $? -eq 0 ] ; then
       cd ..
