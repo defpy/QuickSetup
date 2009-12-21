@@ -1,4 +1,5 @@
 # QuickSetup MAakefile
+# Pretty primitive, but hey, it's my first one
 
 CC       = gcc 
 LIBS     = `pkg-config --cflags --libs gtk+-2.0 gmodule-export-2.0` 

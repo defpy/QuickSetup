@@ -8,7 +8,7 @@ float	Percent;
 float	TempP;
 int 	i = 1;
 
-void OpenStream(char Path[])
+void OpenStream(char Path[])																	// Open a stream to read from
 {
 	STREAM = popen(Path, "r");
 	if(!STREAM)
@@ -18,24 +18,24 @@ void OpenStream(char Path[])
 	}
 }
 
-int UpdateFromStream()
+int UpdateFromStream()																			// This will check for input from script	
 {
 	fgets(STREAM_OUT, 500, STREAM);
 
-	if(!strncmp(STREAM_OUT, "-", 1))
+	if(!strncmp(STREAM_OUT, "-", 1))															// starts with a '-', so change the progress bar text
 	{
 		TempPt = strstr(STREAM_OUT, "\n");
 		if(TempPt) *TempPt = NULL;
 		gtk_progress_bar_set_text(PROGRESS, STREAM_OUT);
 		return 1;
 	}
-	else if(!strncmp(STREAM_OUT, "#", 1))
+	else if(!strncmp(STREAM_OUT, "#", 1))														// starts with a '#', so print to terminal
 	{
 		printf("%s", STREAM_OUT);
 		return 1;
 	}
-	else if(!strcmp(STREAM_OUT, "Success\n") || !strcmp(STREAM_OUT, "Failed\n")) return 0;
-	else
+	else if(!strcmp(STREAM_OUT, "Success\n") || !strcmp(STREAM_OUT, "Failed\n")) return 0;		// either Succes or Failed, indicate script ended
+	else																						// else update the progress bar percentage
 	{
 		usleep(300000);
 		TempP = atoi(STREAM_OUT);
@@ -48,7 +48,7 @@ int UpdateFromStream()
 	}
 }	
 
-void RunScript(char Path[50])
+void RunScript(char Path[50])																	// Easily run a script with the above functions
 {
 	MoveWindows();
 	ResetBar();
@@ -64,7 +64,7 @@ void RunScript(char Path[50])
 	i		= 1;
 }
 
-void FbsetGet()
+void FbsetGet()																// Grab X and Y values from "fbset-set read" and output them to the entryboxes
 {
 	char STREAM_X[5];
 	char STREAM_Y[5];
@@ -85,7 +85,7 @@ void FbsetGet()
 	gtk_adjustment_set_value(FBSETY, y);
 }
 
-void KbootRun()
+void KbootRun()																// Grab values from the togglebox and combobox and run kboot-ed
 {
 	char* Mode = gtk_combo_box_get_active_text(COMBOBOX);
 	if(gtk_toggle_button_get_active(TOGGLEBUTTON))
@@ -106,7 +106,7 @@ void KbootRun()
 	}
 }
 
-void CreateMenu(char ListPath[20])
+void CreateMenu(char ListPath[20])											// Universal menu creator that grabs values from a file.
 {
 	char LISTOUT[100];	
 	int i, j;

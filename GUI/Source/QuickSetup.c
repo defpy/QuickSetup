@@ -28,12 +28,12 @@ int main (int argc, char *argv[])
 		return 1;
 	}
 	
-	SetupMenus();
-	MoveWindows();
-	gtk_main();
+	SetupMenus();				// Simply connect widget varaibles to the glade widgets
+	MoveWindows();				// Move them around so they look like one.
+	gtk_main();					// GTK+ main loop (waiting for button presses, etc.
 
-	system("scripts/cleanup");
-	return 0;
+	system("scripts/cleanup");	// Remove some stuff.		
+	return 0;					// Return 0 to indicate we're finished.
 }
 
 void SetupMenus()
@@ -47,8 +47,6 @@ void SetupMenus()
 	Window_Tweaks      = GTK_WIDGET(gtk_builder_get_object (builder, "Tweaks"));
 	Window_VideoMode   = GTK_WIDGET(gtk_builder_get_object (builder, "VideoMode"));
 	Window_Borders     = GTK_WIDGET(gtk_builder_get_object (builder, "Border"));
-
-	
 
 	gtk_window_get_position(GTK_WINDOW(Window_QuickSetup), &WinX, &WinY);
 	WinY += 100;

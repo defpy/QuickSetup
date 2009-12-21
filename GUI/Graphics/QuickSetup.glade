@@ -681,7 +681,4 @@
     </data>
   </object>
   <object class="GtkListStore" id="GameList"/>
-  <object class="GtkMenu" id="GameMenu">
-    <property name="visible">True</property>
-  </object>
 </interface>
