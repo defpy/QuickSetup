@@ -28,12 +28,12 @@ int main (int argc, char *argv[])
 		return 1;
 	}
 	
-	SetupMenus();				// Simply connect widget varaibles to the glade widgets
-	MoveWindows();				// Move them around so they look like one.
-	gtk_main();					// GTK+ main loop (waiting for button presses, etc.
+	SetupMenus();						// Simply connect widget varaibles to the glade widgets
+	MoveWindows();						// Move them around so they look like one.
+	gtk_main();							// GTK+ main loop (waiting for button presses, etc.
 
-	system("scripts/cleanup");	// Remove some stuff.		
-	return 0;					// Return 0 to indicate we're finished.
+	system("scripts/Other/cleanup");	// Remove some stuff.		
+	return 0;							// Return 0 to indicate we're finished.
 }
 
 void SetupMenus()

@@ -4,18 +4,18 @@
 # The main purpose of this library is to offload colour conversation and video scalling to SPU cores, found in Cell BE processor.
 
 HOME=$(head scripts/.home_path)
-DOWNLOAD=${HOME}/QuickSetup/scripts/downloads
+DOWNLOAD=${HOME}/QuickSetup/scripts/Downloads
 
 install_spu_medialib()
 {
 # Downloading a .deb archive.
 echo "Checking for download directory..."
 cd ${HOME}/QuickSetup/scripts
-if [ -d downloads ]; then
+if [ -d Downloads ]; then
    echo "Ok"
 else
    echo "No. Creating directory ..."
-   mkdir -p downloads
+   mkdir -p Downloads
 fi
 
 cd $DOWNLOAD

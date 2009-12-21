@@ -70,7 +70,7 @@ void FbsetGet()																// Grab X and Y values from "fbset-set read" and 
 	char STREAM_Y[5];
 	int i, x, y;
 	
-	FILE* STREAM = popen("scripts/fbset-set read", "r");
+	FILE* STREAM = popen("scripts/Tweaks/fbset-set read", "r");
 	if(!STREAM) printf("Could not execute scripts/fbset read.\n");
 	
 	fgets(STREAM_X, 5, STREAM);
@@ -90,19 +90,19 @@ void KbootRun()																// Grab values from the togglebox and combobox an
 	char* Mode = gtk_combo_box_get_active_text(COMBOBOX);
 	if(gtk_toggle_button_get_active(TOGGLEBUTTON))
 	{	
-		if(!strcmp(Mode, "480i")) 	RunScript("scripts/kboot-ed f480i");
-		if(!strcmp(Mode, "576p")) 	RunScript("scripts/kboot-ed f576p");
-		if(!strcmp(Mode, "720p")) 	RunScript("scripts/kboot-ed f720p");
-		if(!strcmp(Mode, "1080i"))	RunScript("scripts/kboot-ed f1080i");
-		if(!strcmp(Mode, "1080p")) 	RunScript("scripts/kboot-ed f1080p");
+		if(!strcmp(Mode, "480i")) 	RunScript("scripts/Tweaks/kboot-ed f480i");
+		if(!strcmp(Mode, "576p")) 	RunScript("scripts/Tweaks/kboot-ed f576p");
+		if(!strcmp(Mode, "720p")) 	RunScript("scripts/Tweaks/kboot-ed f720p");
+		if(!strcmp(Mode, "1080i"))	RunScript("scripts/Tweaks/kboot-ed f1080i");
+		if(!strcmp(Mode, "1080p")) 	RunScript("scripts/Tweaks/kboot-ed f1080p");
 	}	
 	else
 	{	
-		if(!strcmp(Mode, "480i")) 	RunScript("scripts/kboot-ed 480i");
-		if(!strcmp(Mode, "576p")) 	RunScript("scripts/kboot-ed 576p");
-		if(!strcmp(Mode, "720p")) 	RunScript("scripts/kboot-ed 720p");
-		if(!strcmp(Mode, "1080i"))	RunScript("scripts/kboot-ed 1080i");
-		if(!strcmp(Mode, "1080p")) 	RunScript("scripts/kboot-ed 1080p");
+		if(!strcmp(Mode, "480i")) 	RunScript("scripts/Tweaks/kboot-ed 480i");
+		if(!strcmp(Mode, "576p")) 	RunScript("scripts/Tweaks/kboot-ed 576p");
+		if(!strcmp(Mode, "720p")) 	RunScript("scripts/Tweaks/kboot-ed 720p");
+		if(!strcmp(Mode, "1080i"))	RunScript("scripts/Tweaks/kboot-ed 1080i");
+		if(!strcmp(Mode, "1080p")) 	RunScript("scripts/Tweaks/kboot-ed 1080p");
 	}
 }
 

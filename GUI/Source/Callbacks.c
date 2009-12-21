@@ -53,58 +53,6 @@ G_MODULE_EXPORT void Exit_released()												// Quit PSUbuntu
 {
 	gtk_main_quit();
 }
-G_MODULE_EXPORT void Goplayer_released()											// Install GoPlayer
-{
-	RunScript("scripts/goplayer/goplayer-install");
-}
-G_MODULE_EXPORT void Mplayer_released()												// Install Mplayer
-{
-	gtk_progress_bar_set_text(PROGRESS, "Not implemented yet");
-}
-G_MODULE_EXPORT void Youtube_released()												// Install greasemonkey
-{
-	RunScript("scripts/youtube-option");
-}
-G_MODULE_EXPORT void Asound_released()												// Fix asound
-{
-	RunScript("scripts/asound");
-}
-G_MODULE_EXPORT void Applications_released()										// Popup app menu
-{
-	MoveWindows();
-	CreateMenu("scripts/.AppList");
-}
-G_MODULE_EXPORT void Tools_released()												// Popup tool menu
-{
-	MoveWindows();
-	CreateMenu("scripts/.ToolList");
-}
-G_MODULE_EXPORT void Games_released()												// Popup game menu
-{
-	MoveWindows();
-	CreateMenu("scripts/.GameList");
-}
-G_MODULE_EXPORT void Vram_released()												// Enable vram as swap
-{
-	RunScript("scripts/set-vram");
-}
-G_MODULE_EXPORT void ShadowFB_released()											// Disable ShadowFb
-{
-	RunScript("scripts/xorg-change shadowfb");
-}
-G_MODULE_EXPORT void Services_released()											// Disable services
-{
-	RunScript("scripts/disable-services");
-}
-G_MODULE_EXPORT void XMB_released()													// Install OSXMB
-{
-	RunScript("scripts/osxmb-install");
-}
-G_MODULE_EXPORT void Wacom_released()												// Enable wacom tablet
-{
-	gtk_progress_bar_set_text(PROGRESS, "Not implemented yet");
-	//RunScript("scripts/xorg-change wacom");
-}
 G_MODULE_EXPORT void Resolution_released()											// Popup videomode menu
 {
 	MoveWindows();
@@ -118,7 +66,58 @@ G_MODULE_EXPORT void Borders_released()												// Popup fbset menu
 	gtk_widget_show(Window_Borders);
 	gtk_widget_hide(Window_VideoMode);
 }
-
+G_MODULE_EXPORT void Goplayer_released()											// Install GoPlayer
+{
+	RunScript("scripts/Multimedia/goplayer/goplayer-install");
+}
+G_MODULE_EXPORT void Mplayer_released()												// Install Mplayer
+{
+	gtk_progress_bar_set_text(PROGRESS, "Not implemented yet");
+}
+G_MODULE_EXPORT void Youtube_released()												// Install greasemonkey
+{
+	RunScript("scripts/Multimedia/youtube-option");
+}
+G_MODULE_EXPORT void Asound_released()												// Fix asound
+{
+	RunScript("scripts/Multimedia/asound");
+}
+G_MODULE_EXPORT void Applications_released()										// Popup app menu
+{
+	MoveWindows();
+	CreateMenu("scripts/Installers/.AppList");
+}
+G_MODULE_EXPORT void Tools_released()												// Popup tool menu
+{
+	MoveWindows();
+	CreateMenu("scripts/Installers/.ToolList");
+}
+G_MODULE_EXPORT void Games_released()												// Popup game menu
+{
+	MoveWindows();
+	CreateMenu("scripts/Installers/.GameList");
+}
+G_MODULE_EXPORT void Vram_released()												// Enable vram as swap
+{
+	RunScript("scripts/Performance/set-vram");
+}
+G_MODULE_EXPORT void ShadowFB_released()											// Disable ShadowFb
+{
+	RunScript("scripts/Performance/xorg-change shadowfb");
+}
+G_MODULE_EXPORT void Services_released()											// Disable services
+{
+	RunScript("scripts/Performance/disable-services");
+}
+G_MODULE_EXPORT void XMB_released()													// Install OSXMB
+{
+	RunScript("scripts/Tweaks/osxmb-install");
+}
+G_MODULE_EXPORT void Wacom_released()												// Enable wacom tablet
+{
+	gtk_progress_bar_set_text(PROGRESS, "Not implemented yet");
+	//RunScript("scripts/Tweaks/xorg-change wacom");
+}
 G_MODULE_EXPORT void VideoOk_released()												// Change video mode				
 {
 	ResetBar();
@@ -132,10 +131,10 @@ G_MODULE_EXPORT void FbsetOk_released()												// Change fbset resolution
 	int FbX = gtk_adjustment_get_value(FBSETX);
 	int FbY = gtk_adjustment_get_value(FBSETY);
 	char RunString[28];
-	sprintf(RunString, "scripts/fbset-set %d %d", FbX, FbY);
+	sprintf(RunString, "scripts/Tweaks/fbset-set %d %d", FbX, FbY);
 	RunScript(RunString);
-	gtk_window_fullscreen(GTK_WINDOW(Window_QuickSetup));
-	gtk_window_unfullscreen(GTK_WINDOW(Window_QuickSetup));
+	gtk_window_fullscreen(GTK_WINDOW(Window_QuickSetup));		// Change to fullscreen for a moment
+	gtk_window_unfullscreen(GTK_WINDOW(Window_QuickSetup));		// To refresh the screen
 }
 
 
