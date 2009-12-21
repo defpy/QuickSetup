@@ -128,10 +128,15 @@ G_MODULE_EXPORT void VideoOk_released()												// Change video mode
 }
 G_MODULE_EXPORT void FbsetOk_released()												// Change fbset resolution
 {
+	int x, y;
 	int FbX = gtk_adjustment_get_value(FBSETX);
 	int FbY = gtk_adjustment_get_value(FBSETY);
 	char RunString[28];
 	sprintf(RunString, "scripts/fbset-set %d %d", FbX, FbY);
 	RunScript(RunString);
+	gtk_window_fullscreen(GTK_WINDOW(Window_QuickSetup));
+	gtk_window_unfullscreen(GTK_WINDOW(Window_QuickSetup));
 }
+
+
 

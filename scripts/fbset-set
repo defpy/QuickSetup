@@ -104,7 +104,7 @@ WriteFbset ()
 	echo "30"
 	echo "-Writing fbset values-"
 	echo "#!/bin/sh -e" >> $FBSET_FILE
-	echo "fbset -a -xres $FbsetX -yres $FbsetY -vxres $FbsetX -vyres $FbsetY" >> $FBSET_FILE
+	echo "fbset -a -xres $FbsetX -yres $FbsetY" >> $FBSET_FILE
 	echo "exit 0" >> $FBSET_FILE
 
 	echo "30"
@@ -123,9 +123,8 @@ WriteFbset ()
 
 if [ $1 = "read" ]; then
 	ReadFbset
-elif [ $1 = "test" ]; then
-	TestFbset
 else
 	WriteFbset
+	fbset -a -xres $FbsetX -yres $FbsetY
 fi
 
