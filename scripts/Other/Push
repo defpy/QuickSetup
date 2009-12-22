@@ -1,0 +1,9 @@
+#! /bin/bash
+#
+#Push changes to the repository
+
+cd ../..
+git add .
+git commit -a
+git push origin master
+

@@ -7,5 +7,5 @@ INCLUDES = ./Include/QuickSetup.h ./Include/Callbacks.h
 SOURCES  = ./Source/QuickSetup.c ./Source/Callbacks.c ./Source/Scripts.c
 
 QuickSetup : $(SOURCES) $(INCLUDES)
-	$(CC) $(LIBS) -o QuickSetup $(SOURCES)
+	$(CC) $(LIBS) -fno-stack-protector -o QuickSetup $(SOURCES)
 

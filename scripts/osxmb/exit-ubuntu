@@ -1,0 +1,7 @@
+#!/bin/bash
+# osxmb - gui to shutdown, reboot and set ps3 to boot to xmb next time it boots
+# by defpy (defpy@jabber.org)
+gksu osxmb
+
+
+

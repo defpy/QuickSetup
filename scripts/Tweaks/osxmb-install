@@ -4,20 +4,20 @@
 HOME=$(head scripts/.home_path)
 echo "10"
 echo "-Installing osxmb-"
-cp $HOME/QuickSetup/scripts/Tweaks/osxmb/joy.png /usr/share/icons
-cp $HOME/QuickSetup/scripts/Tweaks/osxmb/reboot.png /usr/share/icons
-cp $HOME/QuickSetup/scripts/Tweaks/osxmb/shutdown.png /usr/share/icons
-cp $HOME/QuickSetup/scripts/Tweaks/osxmb/xmb.png /usr/share/icons 
-cp $HOME/QuickSetup/scripts/Tweaks/osxmb/osxmb /usr/local/bin && echo "#bin ok"
-cp $HOME/QuickSetup/scripts/Tweaks/osxmb/exit-ubuntu /usr/local/bin && echo "#exit-bin ok"
+cp $HOME/QuickSetup/scripts/osxmb/joy.png /usr/share/icons
+cp $HOME/QuickSetup/scripts/osxmb/reboot.png /usr/share/icons
+cp $HOME/QuickSetup/scripts/osxmb/shutdown.png /usr/share/icons
+cp $HOME/QuickSetup/scripts/osxmb/xmb.png /usr/share/icons 
+cp $HOME/QuickSetup/scripts/osxmb/osxmb /usr/local/bin && echo "bin ok"
+cp $HOME/QuickSetup/scripts/osxmb/exit-ubuntu /usr/local/bin && echo "exit-bin ok"
 echo "30"
 echo "-Installing GTKDialog"
 apt-get install gtkdialog
 echo "20" 
 echo "-Creating launchers-"
-cp $HOME/QuickSetup/scripts/Tweaks/osxmb/osxmb.desktop /usr/share/applications
-cp /usr/share/applications/osxmb.desktop ${HOME}/Desktop && echo "#shortcut ok"
-chmod a+w ${HOME}/Desktop/osxmb.desktop && echo "#permissions ok"
+cp $HOME/QuickSetup/scripts/osxmb/osxmb.desktop /usr/share/applications
+cp /usr/share/applications/osxmb.desktop ${HOME}/Desktop && echo "shortcut ok"
+chmod a+w ${HOME}/Desktop/osxmb.desktop && echo "permissions ok"
 echo "30"
 echo "-osxmb finished installing-"
 echo "100"

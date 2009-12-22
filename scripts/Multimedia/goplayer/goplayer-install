@@ -10,9 +10,9 @@ echo "-Installing required codecs and applications-"
 apt-get install -y ffmpeg mpg321 youtube-dl gtkdialog
 echo "30"
 echo "-Installing GoPlayer-"
-cp $HOME/QuickSetup/scripts/Multimedia/goplayer/goplayer /usr/local/bin && echo "#bin ok"
-cp $HOME/QuickSetup/scripts/Multimedia/goplayer/goplay.png /usr/share/icons && echo "#image ok"
-echo "" > /usr/share/applications/GoPlayer.desktop && echo "#desktop ok"
+cp $HOME/QuickSetup/scripts/Multimedia/goplayer/goplayer /usr/local/bin && echo "bin ok"
+cp $HOME/QuickSetup/scripts/Multimedia/goplayer/goplay.png /usr/share/icons && echo "image ok"
+echo "" > /usr/share/applications/GoPlayer.desktop && echo "desktop ok"
 
 echo "30"
 echo "-Creating launchers-"
@@ -27,6 +27,7 @@ echo "Type=Application" >> /usr/share/applications/GoPlayer.desktop
 echo "Categories=AudioVideo;Player;" >> /usr/share/applications/GoPlayer.desktop
 echo "MimeType=video/mpeg;video/x-mpeg;video/x-avi;video/x-ms-asf;video/x-ms-wmv;video/x-msvideo;application/x-matroska;audio/x-mp3;audio/mp4;video/mp4;video/x-flv;" >> /usr/share/applications/GoPlayer.desktop
 
+cp /usr/share/applications/GoPlayer.desktop ${HOME}/Desktop && echo "shortcut ok"
 echo "20"
 echo "-GoPlayer finished installing-"
 echo "Success"

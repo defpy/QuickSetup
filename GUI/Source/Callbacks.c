@@ -133,8 +133,8 @@ G_MODULE_EXPORT void FbsetOk_released()												// Change fbset resolution
 	char RunString[28];
 	sprintf(RunString, "scripts/Tweaks/fbset-set %d %d", FbX, FbY);
 	RunScript(RunString);
-	gtk_window_fullscreen(GTK_WINDOW(Window_QuickSetup));		// Change to fullscreen for a moment
-	gtk_window_unfullscreen(GTK_WINDOW(Window_QuickSetup));		// To refresh the screen
+	gtk_window_fullscreen(GTK_WINDOW(Window_QuickSetup));
+	gtk_window_unfullscreen(GTK_WINDOW(Window_QuickSetup));
 }
 
 
