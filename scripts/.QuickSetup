@@ -1,0 +1,48 @@
+#!/bin/bash
+#Sole purpose is launching .start in the QuickSetup directory.
+
+if [ "$1" == "--help" ]; then
+	echo "	--help			This message"
+	echo "	--compile		Recompile QuickSetup"
+	echo "	--clean			Back to a clean install of QS"
+	echo "	--uninstall		Delete QuickSetup and launchers"
+	echo "	--push			Commit and push to github"
+	echo "	--pull			Pull changes from github"
+elif [ "$1" == "--compile" ]; then
+	cd $HOME/QuickSetup/
+	./Start --compile
+elif [ "$1" == "--clean" ]; then
+	echo "Cleaning up"	
+	cd $HOME/QuickSetup/scripts/Other
+	./cleanup
+	cd ..
+	sudo rm .QuickRun
+	echo "Succesfully removed all unnecessary files"
+elif [ "$1" == "--uninstall" ]; then
+	echo "Removing QuickSetup"
+	sudo rm /usr/share/icons/PSUbuntu.png
+	sudo rm /usr/share/applications/QuickSetup.desktop
+	sudo rm /usr/local/bin/QuickSetup
+	sudo rm -r $HOME/QuickSetup
+	echo "QuickSetup was removed from this system"
+elif [ "$1" == "--push" ]; then
+	cd $HOME/QuickSetup/scripts/Other
+	./push
+elif [ "$1" == "--push" ]; then
+	git pull origin master
+else
+	cd $HOME/QuickSetup/
+	./Start
+fi
+
+
+
+
+
+
+
+
+
+
+
+

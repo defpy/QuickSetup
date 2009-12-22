@@ -30,6 +30,8 @@ int main (int argc, char *argv[])
 	}
 	SetupMenus();						// Simply connect widget varaibles to the glade widgets
 	
+	RunScript("scripts/Other/startup");	
+	
 	while(!EXIT)						// Custom main loop.
 	{
 		g_usleep(100000);
