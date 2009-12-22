@@ -29,6 +29,7 @@ elif [ "$1" == "--push" ]; then
 	cd $HOME/QuickSetup/scripts/Other
 	./push
 elif [ "$1" == "--push" ]; then
+	cd $HOME/QuickSetup
 	git pull origin master
 else
 	cd $HOME/QuickSetup/

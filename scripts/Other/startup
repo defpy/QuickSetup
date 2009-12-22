@@ -9,14 +9,22 @@ else
 	echo "#Either that, or you removed scripts/.QuickSetup."
 	echo "-Setting up QuickSetup-"
 	echo "20"
+	
 	echo "-Creating QuickSetup launcher-"
 	cp $HOME/QuickSetup/GUI/Graphics/PSUIcon.png /usr/share/icons/PSUbuntu.png
-	echo "20"
+	echo "10"
 	cp $HOME/QuickSetup/scripts/.QuickSetup.desktop /usr/share/applications/QuickSetup.desktop
-	echo "20"
+	echo "10"
 	cp $HOME/QuickSetup/scripts/.QuickSetup /usr/local/bin/QuickSetup
-	echo "40"
+	echo "20"
+	
+	
+	echo "-Installing required packages-"
+	apt-get install libgtk2.0-dev fbset
+	echo "100"
+	
 	echo "-QuickSetup was succesfully installed-"
+	
 	echo "#From now on you can launch QuickSetup from the system menu"
 	echo "#You can also use the terminal command \"QuickSetup\""
 	echo "#For more information: QuickSetup --help"
