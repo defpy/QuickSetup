@@ -3,7 +3,6 @@
 FILE*	STREAM;
 char	STREAM_OUT[500];
 char	ProgText;
-char*	TempPt;
 float	Percent;
 float	TempP;
 int 	i = 1;
@@ -24,8 +23,7 @@ int UpdateFromStream()																			// This will check for input from scrip
 
 	if(!strncmp(STREAM_OUT, "-", 1))															// starts with a '-', so change the progress bar text
 	{
-		TempPt = strstr(STREAM_OUT, "\n");
-		if(TempPt) *TempPt = NULL;
+		memset(strstr(STREAM_OUT, "\n"), 0, 2);
 		gtk_progress_bar_set_text(PROGRESS, STREAM_OUT);
 		return 1;
 	}
@@ -106,10 +104,10 @@ void KbootRun()																// Grab values from the togglebox and combobox an
 	}
 }
 
-void CreateMenu(char ListPath[20])											// Universal menu creator that grabs values from a file.
+void CreateMenu(char ListPath[20], int TabNumber)											// Universal menu creator that grabs values from a file.
 {
 	char LISTOUT[100];	
-	int i, j;
+	int i;
 	GtkWidget* MenuItem;
 	GtkWidget* Menu = gtk_menu_new();
 	
@@ -119,6 +117,7 @@ void CreateMenu(char ListPath[20])											// Universal menu creator that grab
 	for(i = atoi(LISTOUT); i>0; i--)
 	{	
 		fgets(LISTOUT, 100, LISTSTREAM);
+		memset(strstr(LISTOUT, "\n"), 0, 2);
 		MenuItem = gtk_menu_item_new_with_label(LISTOUT);
 		gtk_menu_shell_append(GTK_MENU_SHELL(Menu), MenuItem);
 		gtk_widget_show(MenuItem);

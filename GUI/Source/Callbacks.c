@@ -75,17 +75,17 @@ G_MODULE_EXPORT void Asound_released()												// Fix asound
 G_MODULE_EXPORT void Applications_released()										// Popup app menu
 {
 	MoveWindows();
-	CreateMenu("scripts/Installers/.AppList");
+	CreateMenu("scripts/Installers/AppList", 2);
 }
 G_MODULE_EXPORT void Tools_released()												// Popup tool menu
 {
 	MoveWindows();
-	CreateMenu("scripts/Installers/.ToolList");
+	CreateMenu("scripts/Installers/ToolList", 1);
 }
 G_MODULE_EXPORT void Games_released()												// Popup game menu
 {
 	MoveWindows();
-	CreateMenu("scripts/Installers/.GameList");
+	CreateMenu("scripts/Installers/GameList", 0);
 }
 G_MODULE_EXPORT void Vram_released()												// Enable vram as swap
 {
