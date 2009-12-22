@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <pthread.h>
 #include <gtk/gtk.h>
 #include "Callbacks.h"
 
@@ -23,7 +24,7 @@ extern GtkWidget*	Window_Tweaks;
 extern GtkWidget*	Window_VideoMode;
 extern GtkWidget*  Window_Borders;
 
-extern int MainLoop;
+extern int EXIT;
 
 void OpenStream(char Path[]);
 int  UpdateFromStream();

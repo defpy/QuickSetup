@@ -7,9 +7,7 @@ G_MODULE_EXPORT void Wizard_released()												// Start the wizard
 
 G_MODULE_EXPORT void Multimedia_released()											// Popup multimedia menu
 {
-	MoveWindows();
 	gtk_widget_show(Window_Multimedia);
-
 	gtk_widget_hide(Window_Installers);
 	gtk_widget_hide(Window_Performance);
 	gtk_widget_hide(Window_Tweaks);
@@ -18,9 +16,7 @@ G_MODULE_EXPORT void Multimedia_released()											// Popup multimedia menu
 }
 G_MODULE_EXPORT void Installers_released()											// Popup installers
 {
-	MoveWindows();
 	gtk_widget_show(Window_Installers);
-
 	gtk_widget_hide(Window_Multimedia);
 	gtk_widget_hide(Window_Performance);
 	gtk_widget_hide(Window_Tweaks);
@@ -29,9 +25,7 @@ G_MODULE_EXPORT void Installers_released()											// Popup installers
 }
 G_MODULE_EXPORT void Performance_released()											// Popup speed stuff
 {
-	MoveWindows();
 	gtk_widget_show(Window_Performance);
-
 	gtk_widget_hide(Window_Multimedia);
 	gtk_widget_hide(Window_Installers);
 	gtk_widget_hide(Window_Tweaks);
@@ -40,9 +34,7 @@ G_MODULE_EXPORT void Performance_released()											// Popup speed stuff
 }
 G_MODULE_EXPORT void Tweaks_released()												// Popup tweaks
 {
-	MoveWindows();
 	gtk_widget_show(Window_Tweaks);
-
 	gtk_widget_hide(Window_Multimedia);
 	gtk_widget_hide(Window_Installers);
 	gtk_widget_hide(Window_Performance);
@@ -51,17 +43,15 @@ G_MODULE_EXPORT void Tweaks_released()												// Popup tweaks
 }
 G_MODULE_EXPORT void Exit_released()												// Quit PSUbuntu
 {
-	gtk_main_quit();
+	EXIT = 1;
 }
 G_MODULE_EXPORT void Resolution_released()											// Popup videomode menu
 {
-	MoveWindows();
 	gtk_widget_show(Window_VideoMode);
 	gtk_widget_hide(Window_Borders);
 }
 G_MODULE_EXPORT void Borders_released()												// Popup fbset menu
 {
-	MoveWindows();
 	FbsetGet();
 	gtk_widget_show(Window_Borders);
 	gtk_widget_hide(Window_VideoMode);
