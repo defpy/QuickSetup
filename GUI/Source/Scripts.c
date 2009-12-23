@@ -74,7 +74,7 @@ void FbsetGet()																// Grab X and Y values from "fbset-set read" and 
 	fgets(STREAM_X, 5, STREAM);
 	fgets(STREAM_Y, 5, STREAM);
 	
-	gtk_adjustment_set_value(FBSETX, atoi(STREAM_Y);
+	gtk_adjustment_set_value(FBSETX, atoi(STREAM_Y));
 	gtk_adjustment_set_value(FBSETY, atoi(STREAM_X));
 }
 
