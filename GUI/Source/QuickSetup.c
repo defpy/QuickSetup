@@ -14,7 +14,7 @@ GtkWidget*	Window_Tweaks;
 GtkWidget*	Window_VideoMode;
 GtkWidget*  Window_Borders;
 
-gint WinX, WinY, WinXOld, WinYOld;
+gint WinX, WinY;
 int EXIT = 0;
 
 int main (int argc, char *argv[])
@@ -28,22 +28,18 @@ int main (int argc, char *argv[])
 		printf("\n\nGUI XML not found!\nDid you run this script from \"/home/YOURNAME/QuickSetup\", using \"start\"?\n\n");
 		return 1;
 	}
-	SetupMenus();						// Simply connect widget varaibles to the glade widgets
+	SetupMenus();							// Simply connect widget varaibles to the glade widgets
+	RunScript("scripts/Other/startup");		// Run some startup checks
 	
-	RunScript("scripts/Other/startup");	
-	
-	while(!EXIT)						// Custom main loop.
+	while(!EXIT)							// Custom main loop.
 	{
 		g_usleep(100000);
 		MoveWindows();
-		while(gtk_events_pending())
-		{
-			gtk_main_iteration();
-		}
+		while(gtk_events_pending()) gtk_main_iteration();
 	}
 
-	system("scripts/Other/cleanup");	// Remove some stuff.	
-	return 0;							// Return 0 to indicate we're finished.
+	system("scripts/Other/cleanup");		// Remove some stuff.	
+	return 0;								// Return 0 to indicate we're finished.
 }
 
 void SetupMenus()

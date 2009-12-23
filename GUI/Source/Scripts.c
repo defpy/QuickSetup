@@ -12,7 +12,7 @@ void OpenStream(char Path[])																	// Open a stream to read from
 	STREAM = popen(Path, "r");
 	if(!STREAM)
 	{
-		printf("Failed executing \"%s\".", Path);
+		printf("Failed executing \"%s\".\n", Path);
 		gtk_main_quit();
 	}
 }
@@ -29,7 +29,7 @@ int UpdateFromStream()																			// This will check for input from scrip
 	}
 	else if(!strncmp(STREAM_OUT, "#", 1))														// starts with a '#', so print to terminal
 	{
-		printf("%s", STREAM_OUT);
+		printf("%s\n", STREAM_OUT);
 		return 1;
 	}
 	else if(!strcmp(STREAM_OUT, "Success\n") || !strcmp(STREAM_OUT, "Failed\n")) return 0;		// either Succes or Failed, indicate script ended
@@ -41,7 +41,7 @@ int UpdateFromStream()																			// This will check for input from scrip
 		Percent += TempP;
 		if(Percent > 1) Percent = 1;
 		gtk_progress_bar_set_fraction(PROGRESS, Percent);
-		while (g_main_context_iteration(NULL, FALSE));
+		while(gtk_events_pending()) gtk_main_iteration();
 		return 1;
 	}
 }	
@@ -55,7 +55,7 @@ void RunScript(char Path[50])																	// Easily run a script with the ab
 	system("clear");
 
 	while(i == 1) i = UpdateFromStream();
-	while (g_main_context_iteration(NULL, FALSE));
+	while(gtk_events_pending()) gtk_main_iteration();
 
 	Percent = 0;
 	TempP	= 0;
@@ -66,7 +66,7 @@ void FbsetGet()																// Grab X and Y values from "fbset-set read" and 
 {
 	char STREAM_X[5];
 	char STREAM_Y[5];
-	int i, x, y;
+	int i;
 	
 	FILE* STREAM = popen("scripts/Tweaks/fbset-set read", "r");
 	if(!STREAM) printf("Could not execute scripts/fbset read.\n");
@@ -74,13 +74,8 @@ void FbsetGet()																// Grab X and Y values from "fbset-set read" and 
 	fgets(STREAM_X, 5, STREAM);
 	fgets(STREAM_Y, 5, STREAM);
 	
-	fclose(STREAM);
-
-	y = atoi(STREAM_X);
-	x = atoi(STREAM_Y);
-	
-	gtk_adjustment_set_value(FBSETX, x);
-	gtk_adjustment_set_value(FBSETY, y);
+	gtk_adjustment_set_value(FBSETX, atoi(STREAM_Y);
+	gtk_adjustment_set_value(FBSETY, atoi(STREAM_X));
 }
 
 void KbootRun()																// Grab values from the togglebox and combobox and run kboot-ed
@@ -104,11 +99,11 @@ void KbootRun()																// Grab values from the togglebox and combobox an
 	}
 }
 
-void CreateMenu(char ListPath[20], int TabNumber)											// Universal menu creator that grabs values from a file.
+void CreateMenu(char ListPath[20], int TabNumber)    // Universal menu creator that grabs values from a file.
 {
 	char LISTOUT[100];	
-	int i;
-	GtkWidget* MenuItem;
+	int i, j;
+	GtkWidget* MenuItem[10];
 	GtkWidget* Menu = gtk_menu_new();
 	
 	FILE* LISTSTREAM = fopen(ListPath, "r");
@@ -118,9 +113,10 @@ void CreateMenu(char ListPath[20], int TabNumber)											// Universal menu cr
 	{	
 		fgets(LISTOUT, 100, LISTSTREAM);
 		memset(strstr(LISTOUT, "\n"), 0, 2);
-		MenuItem = gtk_menu_item_new_with_label(LISTOUT);
-		gtk_menu_shell_append(GTK_MENU_SHELL(Menu), MenuItem);
-		gtk_widget_show(MenuItem);
+		MenuItem[j] = gtk_check_menu_item_new_with_label(LISTOUT);
+		gtk_menu_shell_append(GTK_MENU_SHELL(Menu), MenuItem[j]);
+		gtk_widget_show(MenuItem[j]);
+		j++;
 	}
 	
 	gtk_menu_popup (GTK_MENU(Menu), NULL, NULL, NULL, NULL, 1, gtk_get_current_event_time());

@@ -106,7 +106,6 @@ G_MODULE_EXPORT void XMB_released()													// Install OSXMB
 G_MODULE_EXPORT void Wacom_released()												// Enable wacom tablet
 {
 	gtk_progress_bar_set_text(PROGRESS, "Not implemented yet");
-	//RunScript("scripts/Tweaks/xorg-change wacom");
 }
 G_MODULE_EXPORT void VideoOk_released()												// Change video mode				
 {
